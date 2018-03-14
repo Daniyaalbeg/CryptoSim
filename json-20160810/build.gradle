@@ -1,0 +1,4 @@
+configurations.maybeCreate("default")
+artifacts.add("default", file('json-20160810.jar'))
+dependencies {
+}

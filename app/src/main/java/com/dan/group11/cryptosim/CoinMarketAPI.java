@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import jsonParsing.JSONParser;
@@ -28,12 +29,12 @@ public class CoinMarketAPI {
         String url =("https://api.coinmarketcap.com/v1/ticker/?start=" + Integer.toString(limit) + "&limit=10");
         //url is API URL, has limit variable to dictate how many coins are needed for display
         JSONParser jParser =new JSONParser() ;
-        JSONObject coinBatch = jParser.getJSONFromUrl(url) ; //gets and parses JSON file from url
         try {
+            JSONObject coinBatch = jParser.getJSONFromUrl(url); //gets and parses JSON file from url
             coins = coinBatch.getJSONArray("coindata") ; //JSONObject --> JSONArray
         }
-        catch(JSONException e) {
-            Log.e("JSONObject conversion", "Error converting JSONObject to JSONArray" + e.toString()) ;
+        catch(JSONException | IOException e1) {
+            Log.e("url conversion", "Error converting url to JSONArray" + e1.toString()) ;
         }
     }
 
@@ -67,8 +68,9 @@ public class CoinMarketAPI {
         String url =("https://api.coinmarketcap.com/v1/ticker/"+ID+"/") ; //API URL for specific currency
 
         JSONParser jParser =new JSONParser() ;
-        JSONObject tempCoin =jParser.getJSONFromUrl(url) ;
+
         try {
+            JSONObject tempCoin =jParser.getJSONFromUrl(url) ;
             return new Coin(
                     tempCoin.getString("id"),
                     tempCoin.getString("name"),
@@ -83,7 +85,7 @@ public class CoinMarketAPI {
                     Float.parseFloat(tempCoin.getString("percent_change_24h"))
             ) ;
         }
-        catch(JSONException e){
+        catch(JSONException |IOException e){
             Log.e("JSON Array Values", "Error getting values from JSONObject" + e.toString()) ;
             return null ;
         }

@@ -1,5 +1,6 @@
 package com.dan.group11.cryptosim;
 
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,6 +13,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.dan.group11.cryptosim.Fragments.CoinPrices;
+import com.dan.group11.cryptosim.Fragments.Login;
+import com.dan.group11.cryptosim.Fragments.Settings;
+import com.dan.group11.cryptosim.Fragments.SimMode;
+import com.dan.group11.cryptosim.Fragments.Wallet;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -40,6 +47,9 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+        fm.beginTransaction().replace(R.id.main, new SimMode()).commit();
     }
 
     @Override
@@ -80,7 +90,19 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
 
+        if (id == R.id.nav__sim_mode) {
+            fm.beginTransaction().replace(R.id.main, new SimMode()).commit();
+        } else if (id == R.id.nav_coin_prices) {
+            fm.beginTransaction().replace(R.id.main, new CoinPrices()).commit();
+        } else if (id == R.id.nav_wallet) {
+            fm.beginTransaction().replace(R.id.main, new Wallet()).commit();
+        } else if (id == R.id.nav_settings) {
+            fm.beginTransaction().replace(R.id.main, new Settings()).commit();
+        } else if (id == R.id.nav_log_in) {
+            fm.beginTransaction().replace(R.id.main, new Login()).commit();
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

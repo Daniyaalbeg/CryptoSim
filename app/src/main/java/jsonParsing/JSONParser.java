@@ -1,5 +1,6 @@
 package jsonParsing ;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -22,12 +23,25 @@ public class JSONParser {
         return sb.toString();
     }
 
-    public static JSONObject getJSONFromUrl(String url) throws IOException, JSONException {
+    public static JSONArray getJSONFromUrl(String url) throws IOException, JSONException {
         InputStream is = new URL(url).openStream();
         try {
             BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
             String jsonText = readAll(rd);
-            JSONObject json = new JSONObject(jsonText);
+            JSONArray json = new JSONArray(jsonText);
+            return json; //returns array
+        } finally {
+            is.close();
+        }
+    }
+
+    public static JSONObject getJSONObjFromUrl(String url) throws IOException, JSONException {
+        InputStream is = new URL(url).openStream();
+        try {
+            BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+            String jsonText = readAll(rd);
+            JSONArray jsonArr = new JSONArray(jsonText);
+            JSONObject json =jsonArr.getJSONObject(0) ;
             return json;
         } finally {
             is.close();

@@ -100,4 +100,5 @@ public class ExampleInstrumentedTest {
         assertNotEquals("Dash", c1.get(11).getName());
         CM.updateCoinInfo();
     }
+    //Need to do methods for filters
 }

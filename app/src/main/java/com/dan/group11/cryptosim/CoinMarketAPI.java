@@ -15,7 +15,7 @@ import jsonParsing.JSONParser;
  * Created by Ugo on 11/03/2018
  *
  * This class gets info on coins from API
- * Can get info for many coins (how many is our choice) or for individual ones
+ * Can get info for many coins (how many is our choice) or for an individual one
  * Every time the user wants to refresh info or app is closed and opened again a new CoinMarketAPI
  * object should be made since you can only call the constructor once.
  *

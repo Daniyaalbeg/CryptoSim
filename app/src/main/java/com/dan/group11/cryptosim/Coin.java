@@ -5,7 +5,7 @@ import java.util.Comparator;
 /**
  * Created by Ugo on 12/03/2018.
  *
- * Coin class holds all info on individual cryptocurrencies
+ * Coin class holds all info on individual cryptocurrenciess
  * Each coin has one object
  * object can be replaced or updated, no duplicates
  */

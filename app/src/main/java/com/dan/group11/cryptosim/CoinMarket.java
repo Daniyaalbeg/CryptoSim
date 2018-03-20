@@ -8,7 +8,7 @@ import java.util.Collections ;
  */
 
 enum SortBy {
-    byMarketCap, byVolume, byPrice, byRank, byName //Different attributes the coins can be sorted by
+    byMarketCap, byVolume, byPrice, byRank, byName  //Different attributes the coins can be sorted by
 }
 
 public class CoinMarket {

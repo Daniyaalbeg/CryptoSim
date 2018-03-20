@@ -29,7 +29,7 @@ public class JSONParser {
             BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
             String jsonText = readAll(rd);
             JSONArray json = new JSONArray(jsonText);
-            return json;
+            return json; //returns array
         } finally {
             is.close();
         }

@@ -1,5 +1,7 @@
 package com.dan.group11.cryptosim;
 
+import java.util.Comparator;
+
 /**
  * Created by Ugo on 12/03/2018.
  *
@@ -8,22 +10,22 @@ package com.dan.group11.cryptosim;
  * object can be replaced or updated, no duplicates
  */
 
-public class Coin {
+public class Coin{
 
     private String ID ; //should be unique
     private String name ;
     private String symbol ;
     private int rank ;
     private float price ;
-    private int volume24H ;
-    private int marketCap ;
-    private int availableSupply ;
-    private int totalSupply ;
-    private int maxSupply ;
+    private float volume24H ;
+    private long marketCap ;
+    private float availableSupply ;
+    private float totalSupply ;
+    private float maxSupply ;
     private float percentChange ;
 
     //Constructor
-    Coin( String iID, String nName, String sSymbol, int rRank, float pPrice, int vVolume24H, int mMarketCap, int aAvailableSupply, int tTotalSupply, int mMaxSupply, float pPercentChange ) {
+    Coin( String iID, String nName, String sSymbol, int rRank, float pPrice, float vVolume24H, long mMarketCap, float aAvailableSupply, float tTotalSupply, float mMaxSupply, float pPercentChange ) {
         ID =iID ;
         name =nName ;
         symbol =sSymbol ;
@@ -58,23 +60,23 @@ public class Coin {
         return rank;
     }
 
-    public int getVolume24H() {
+    public float getVolume24H() {
         return volume24H;
     }
 
-    public int getMarketCap() {
+    public long getMarketCap() {
         return marketCap;
     }
 
-    public int getAvailableSupply() {
+    public float getAvailableSupply() {
         return availableSupply;
     }
 
-    public int getTotalSupply() {
+    public float getTotalSupply() {
         return totalSupply;
     }
 
-    public int getMaxSupply() {
+    public float getMaxSupply() {
         return maxSupply;
     }
 
@@ -82,4 +84,40 @@ public class Coin {
         return percentChange;
     }
 
+    //Comparators are needed to sort collections made up of objects
+    public static Comparator<Coin> sortByMarketCap = new Comparator<Coin>() {
+        @Override
+        public int compare(Coin o1, Coin o2) {
+            long marketCap1 =12982198L ;
+            long marketCap2 =356363434L ;
+            return Math.round(marketCap1) -Math.round(marketCap2) ;
+        }
+    } ;
+
+    public static Comparator<Coin> sortByVolume = new Comparator<Coin>() {
+        @Override
+        public int compare(Coin o1, Coin o2) {
+            float vol1 =o1.getVolume24H() ;
+            float vol2 =o2.getVolume24H() ;
+            return Math.round(vol1) -Math.round(vol2) ;
+        }
+    } ;
+
+    public static Comparator<Coin> sortByPrice = new Comparator<Coin>() {
+        @Override
+        public int compare(Coin o1, Coin o2) {
+            float price1 =o1.getPrice() ;
+            float price2 =o2.getPrice() ;
+            return Math.round(price1) -Math.round(price2) ;
+        }
+    } ;
+
+    public static Comparator<Coin> sortByName = new Comparator<Coin>() {
+        @Override
+        public int compare(Coin o1, Coin o2) {
+            String name1 =o1.getName() ;
+            String name2 =o2.getName() ;
+            return name1.compareTo(name2) ;
+        }
+    } ;
 }

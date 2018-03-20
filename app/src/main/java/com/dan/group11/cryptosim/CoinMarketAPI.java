@@ -25,13 +25,12 @@ public class CoinMarketAPI {
 
     private JSONArray coins ; //JSONArray holds JSON data in arrayList-like format
 
-    CoinMarketAPI(int limit) {
-        String url =("https://api.coinmarketcap.com/v1/ticker/?start=" + Integer.toString(limit) + "&limit=10");
+    CoinMarketAPI(int amount) {
+        String url =("https://api.coinmarketcap.com/v1/ticker/?start=0&limit="+amount);
         //url is API URL, has limit variable to dictate how many coins are needed for display
         JSONParser jParser =new JSONParser() ;
         try {
-            JSONObject coinBatch = jParser.getJSONFromUrl(url); //gets and parses JSON file from url
-            coins = coinBatch.getJSONArray("coindata") ; //JSONObject --> JSONArray
+            coins = jParser.getJSONFromUrl(url); //gets and parses JSON file from url
         }
         catch(JSONException | IOException e1) {
             Log.e("url conversion", "Error converting url to JSONArray" + e1.toString()) ;
@@ -43,19 +42,36 @@ public class CoinMarketAPI {
         try {
             for (int i = 0; i < coins.length(); i++) { //for every coin in the JSONArray coins...
                 JSONObject temp = coins.getJSONObject(i); //...make a JSONObject of it and...
-                returnVal.add(new Coin( // ...'translate' that into a coin object before adding it to returnVal
-                        temp.getString("id"),
-                        temp.getString("name"),
-                        temp.getString("symbol"),
-                        Integer.parseInt(temp.getString("rank")),
-                        Float.parseFloat(temp.getString("price_usd")),
-                        Integer.parseInt(temp.getString("24h_volume_usd")),
-                        Integer.parseInt(temp.getString("market_cap_usd")),
-                        Integer.parseInt(temp.getString("available_supply")),
-                        Integer.parseInt(temp.getString("total_supply")),
-                        Integer.parseInt(temp.getString("max_supply")),
-                        Float.parseFloat(temp.getString("percent_change_24h"))
-                )) ;
+                if(temp.getString("max_supply")!=null) { //Max supply can be null
+                    returnVal.add(new Coin( // ...'translate' that into a coin object before adding it to returnVal
+                            temp.getString("id"),
+                            temp.getString("name"),
+                            temp.getString("symbol"),
+                            Integer.parseInt(temp.getString("rank")),
+                            Float.parseFloat(temp.getString("price_usd")),
+                            Float.parseFloat(temp.getString("24h_volume_usd")),
+                            (long)(Double.parseDouble(temp.getString("market_cap_usd"))),
+                            Float.parseFloat(temp.getString("available_supply")),
+                            Float.parseFloat(temp.getString("total_supply")),
+                            -1,
+                            Float.parseFloat(temp.getString("percent_change_24h"))
+                    )) ;
+                }
+                else {
+                    returnVal.add(new Coin( // ...'translate' that into a coin object before adding it to returnVal
+                            temp.getString("id"),
+                            temp.getString("name"),
+                            temp.getString("symbol"),
+                            Integer.parseInt(temp.getString("rank")),
+                            Float.parseFloat(temp.getString("price_usd")),
+                            Float.parseFloat(temp.getString("24h_volume_usd")),
+                            (long) (Double.parseDouble(temp.getString("market_cap_usd"))),
+                            Float.parseFloat(temp.getString("available_supply")),
+                            Float.parseFloat(temp.getString("total_supply")),
+                            Float.parseFloat(temp.getString("max_supply")),
+                            Float.parseFloat(temp.getString("percent_change_24h"))
+                    ));
+                }
             }
         }
         catch(JSONException e) { //Something went wrong accessing values in JSONArray coins
@@ -70,19 +86,19 @@ public class CoinMarketAPI {
         JSONParser jParser =new JSONParser() ;
 
         try {
-            JSONObject tempCoin =jParser.getJSONFromUrl(url) ;
+            JSONObject temp =jParser.getJSONObjFromUrl(url) ;
             return new Coin(
-                    tempCoin.getString("id"),
-                    tempCoin.getString("name"),
-                    tempCoin.getString("symbol"),
-                    Integer.parseInt(tempCoin.getString("rank")),
-                    Float.parseFloat(tempCoin.getString("price_usd")),
-                    Integer.parseInt(tempCoin.getString("24h_volume_usd")),
-                    Integer.parseInt(tempCoin.getString("market_cap_usd")),
-                    Integer.parseInt(tempCoin.getString("available_supply")),
-                    Integer.parseInt(tempCoin.getString("total_supply")),
-                    Integer.parseInt(tempCoin.getString("max_supply")),
-                    Float.parseFloat(tempCoin.getString("percent_change_24h"))
+                    temp.getString("id"),
+                    temp.getString("name"),
+                    temp.getString("symbol"),
+                    Integer.parseInt(temp.getString("rank")),
+                    Float.parseFloat(temp.getString("price_usd")),
+                    Float.parseFloat(temp.getString("24h_volume_usd")),
+                    Long.parseLong(temp.getString("market_cap_usd")),
+                    Float.parseFloat(temp.getString("available_supply")),
+                    Float.parseFloat(temp.getString("total_supply")),
+                    Float.parseFloat(temp.getString("max_supply")),
+                    Float.parseFloat(temp.getString("percent_change_24h"))
             ) ;
         }
         catch(JSONException |IOException e){

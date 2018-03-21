@@ -12,7 +12,7 @@
         android:layout_marginTop="214dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name" />
+        android:text="@string/placeholder_name" />
 
     <EditText
         android:id="@+id/editText3"
@@ -33,4 +33,13 @@
         android:layout_marginTop="88dp"
         android:text="Log In"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editText3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="21dp"
+        android:text="@string/button_log_in" />
 </RelativeLayout>

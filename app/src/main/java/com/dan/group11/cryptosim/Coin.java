@@ -16,16 +16,16 @@ public class Coin{
     private String name ;
     private String symbol ;
     private int rank ;
-    private float price ;
-    private float volume24H ;
+    private double price ;
+    private double volume24H ;
     private long marketCap ;
-    private float availableSupply ;
-    private float totalSupply ;
-    private float maxSupply ;
-    private float percentChange ;
+    private double availableSupply ;
+    private double totalSupply ;
+    private double maxSupply ;
+    private double percentChange ;
 
     //Constructor
-    Coin( String iID, String nName, String sSymbol, int rRank, float pPrice, float vVolume24H, long mMarketCap, float aAvailableSupply, float tTotalSupply, float mMaxSupply, float pPercentChange ) {
+    public Coin( String iID, String nName, String sSymbol, int rRank, double pPrice, double vVolume24H, long mMarketCap, double aAvailableSupply, double tTotalSupply, double mMaxSupply, double pPercentChange ) {
         ID =iID ;
         name =nName ;
         symbol =sSymbol ;
@@ -52,7 +52,7 @@ public class Coin{
         return symbol;
     }
 
-    public float getPrice() {
+    public double getPrice() {
         return price;
     }
 
@@ -60,7 +60,7 @@ public class Coin{
         return rank;
     }
 
-    public float getVolume24H() {
+    public double getVolume24H() {
         return volume24H;
     }
 
@@ -68,19 +68,19 @@ public class Coin{
         return marketCap;
     }
 
-    public float getAvailableSupply() {
+    public double getAvailableSupply() {
         return availableSupply;
     }
 
-    public float getTotalSupply() {
+    public double getTotalSupply() {
         return totalSupply;
     }
 
-    public float getMaxSupply() {
+    public double getMaxSupply() {
         return maxSupply;
     }
 
-    public float getPercentChange() {
+    public double getPercentChange() {
         return percentChange;
     }
 
@@ -97,18 +97,18 @@ public class Coin{
     public static Comparator<Coin> sortByVolume = new Comparator<Coin>() {
         @Override
         public int compare(Coin o1, Coin o2) {
-            float vol1 =o1.getVolume24H() ;
-            float vol2 =o2.getVolume24H() ;
-            return Math.round(vol1) -Math.round(vol2) ;
+            int vol1 = (int) o1.getVolume24H() ;
+            int vol2 = (int) o2.getVolume24H() ;
+            return Math.round(vol1) - Math.round(vol2) ;
         }
     } ;
 
     public static Comparator<Coin> sortByPrice = new Comparator<Coin>() {
         @Override
         public int compare(Coin o1, Coin o2) {
-            float price1 =o1.getPrice() ;
-            float price2 =o2.getPrice() ;
-            return Math.round(price1) -Math.round(price2) ;
+            int price1 = (int) o1.getPrice();
+            int price2 = (int) o2.getPrice() ;
+            return Math.round(price1) - Math.round(price2) ;
         }
     } ;
 

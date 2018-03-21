@@ -1,6 +1,6 @@
 package com.dan.group11.cryptosim;
 
-import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,14 +13,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
-import com.dan.group11.cryptosim.Fragments.CoinPrices;
+import com.dan.group11.cryptosim.Fragments.CoinPrices1;
 import com.dan.group11.cryptosim.Fragments.Login;
 import com.dan.group11.cryptosim.Fragments.Settings;
 import com.dan.group11.cryptosim.Fragments.SimMode;
 import com.dan.group11.cryptosim.Fragments.Wallet;
+
+import com.dan.group11.cryptosim.Activites.*;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -97,13 +97,17 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav__sim_mode) {
             fm.beginTransaction().replace(R.id.main, new SimMode()).commit();
         } else if (id == R.id.nav_coin_prices) {
-            fm.beginTransaction().replace(R.id.main, new CoinPrices()).commit();
+//            Intent intent = new Intent(this, CoinPrices.class);
+//            startActivity(intent);
+            fm.beginTransaction().replace(R.id.main, new CoinPrices1()).commit();
         } else if (id == R.id.nav_wallet) {
             fm.beginTransaction().replace(R.id.main, new Wallet()).commit();
         } else if (id == R.id.nav_settings) {
             fm.beginTransaction().replace(R.id.main, new Settings()).commit();
         } else if (id == R.id.nav_log_in) {
-            fm.beginTransaction().replace(R.id.main, new Login()).commit();
+//            fm.beginTransaction().replace(R.id.main, new Login()).commit();
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

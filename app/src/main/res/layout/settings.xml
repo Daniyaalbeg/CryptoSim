@@ -10,6 +10,6 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="21dp"
-        android:text="Settings"
+        android:text="@string/settings_heading"
         android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 </RelativeLayout>

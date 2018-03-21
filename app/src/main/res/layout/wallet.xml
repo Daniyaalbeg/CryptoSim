@@ -10,6 +10,6 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="37dp"
-        android:text="Wallet"
+        android:text="@string/wallet_heading"
         android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 </RelativeLayout>

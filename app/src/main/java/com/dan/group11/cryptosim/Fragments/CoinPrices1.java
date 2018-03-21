@@ -1,14 +1,17 @@
 package com.dan.group11.cryptosim.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.dan.group11.cryptosim.Activites.CoinDetailedInfo;
 import com.dan.group11.cryptosim.Adapter.CoinAdapter;
 import com.dan.group11.cryptosim.Coin;
 import com.dan.group11.cryptosim.R;
@@ -24,7 +27,7 @@ public class CoinPrices1 extends Fragment {
 
     ArrayAdapter adapter;
     ListView listView;
-    View myView;
+    View myView, headerView;
 
     @Nullable
     @Override
@@ -45,11 +48,25 @@ public class CoinPrices1 extends Fragment {
             coins.add(coin);
         }
 
-        String[] array = {"Bitcoin", "Ethereum", "Ripple"};
-
         adapter = new CoinAdapter(getActivity().getApplicationContext(), coins);
 
         listView = (ListView) getView().findViewById(R.id.listView);
+        headerView = getLayoutInflater().inflate(R.layout.coin_price_header, listView, false);
+        listView.addHeaderView(headerView);
         listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Object coin = listView.getItemAtPosition((int)l);
+                Coin newCoin = (Coin) coin;
+                if (newCoin != null) {
+                    Intent intent = new Intent(getContext(), CoinDetailedInfo.class);
+                    intent.putExtra("coin", newCoin);
+                    startActivity(intent);
+                }
+            }
+        });
     }
+
 }

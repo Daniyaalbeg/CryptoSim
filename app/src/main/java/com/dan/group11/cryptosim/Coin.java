@@ -1,5 +1,8 @@
 package com.dan.group11.cryptosim;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Comparator;
 
 /**
@@ -10,7 +13,7 @@ import java.util.Comparator;
  * object can be replaced or updated, no duplicates
  */
 
-public class Coin{
+public class Coin implements Parcelable{
 
     private String ID ; //should be unique
     private String name ;
@@ -83,6 +86,55 @@ public class Coin{
     public double getPercentChange() {
         return percentChange;
     }
+
+    //Code that implements parcelable interface
+    public Coin(Parcel in) {
+        String[] data = new String[11];
+        in.readStringArray(data);
+        ID = data[0];
+        name = data[1];
+        symbol = data[2];
+        price = Double.parseDouble(data[3]);
+        rank = Integer.parseInt(data[4]);
+        volume24H = Double.parseDouble(data[5]);
+        marketCap = Long.parseLong(data[6]);
+        availableSupply =Double.parseDouble(data[7]);
+        totalSupply = Double.parseDouble(data[8]);
+        maxSupply = Double.parseDouble(data[9]);
+        percentChange = Double.parseDouble(data[10]);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeStringArray(new String[] {
+                ID,
+                name,
+                symbol,
+                String.valueOf(price),
+                String.valueOf(rank),
+                String.valueOf(volume24H),
+                String.valueOf(marketCap),
+                String.valueOf(availableSupply),
+                String.valueOf(totalSupply),
+                String.valueOf(maxSupply),
+                String.valueOf(percentChange)
+        });
+    }
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public Coin createFromParcel(Parcel parcel) {
+            return new Coin(parcel);
+        }
+
+        public Coin[] newArray(int size) {
+            return new Coin[size];
+        }
+    };
 
     //Comparators are needed to sort collections made up of objects
     public static Comparator<Coin> sortByMarketCap = new Comparator<Coin>() {

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import com.dan.group11.cryptosim.Activites.CoinDetailedInfo;
 import com.dan.group11.cryptosim.Adapter.CoinAdapter;
@@ -19,11 +20,12 @@ import com.dan.group11.cryptosim.R;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
  * Created by daniyaalbeg on 20/03/2018.
  */
 
-public class CoinPrices1 extends Fragment {
+public class CoinPrices1 extends Fragment{
 
     ArrayAdapter adapter;
     ListView listView;
@@ -67,6 +69,20 @@ public class CoinPrices1 extends Fragment {
                 }
             }
         });
-    }
 
+        SearchView search = (SearchView) getView().findViewById(R.id.searchView);
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                adapter.getFilter().filter(s);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
+
+    }
 }

@@ -172,4 +172,9 @@ public class Coin implements Parcelable{
             return name1.compareTo(name2) ;
         }
     } ;
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

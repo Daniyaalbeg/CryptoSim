@@ -30,6 +30,9 @@
 
     <!-- Strings related to Coin Price -->
     <string name="coin_list_header">Coin Prices</string>
+
+    <!--Strings related to coin list view-->
+    <string name="coinName">Bitcoin!</string>
     
     <!-- Strings related to detailed coin info -->
     <string name="coin_id">ID</string>

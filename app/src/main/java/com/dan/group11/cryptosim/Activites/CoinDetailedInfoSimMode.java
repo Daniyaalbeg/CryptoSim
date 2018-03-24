@@ -1,23 +1,20 @@
 package com.dan.group11.cryptosim.Activites;
 
-import android.content.Context;
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.AttributeSet;
-import android.view.View;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dan.group11.cryptosim.Coin;
 import com.dan.group11.cryptosim.R;
 
-public class CoinDetailedInfo extends AppCompatActivity {
+public class CoinDetailedInfoSimMode extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_coin_detailed_info);
+        setContentView(R.layout.activity_coin_detailed_info_sim_mode);
 
         Bundle data = getIntent().getExtras();
         Coin coin = (Coin) data.getParcelable("coin");
@@ -66,9 +63,9 @@ public class CoinDetailedInfo extends AppCompatActivity {
         if (i != i) throw new IllegalArgumentException("NaN");
         i *= Double.POSITIVE_INFINITY;
         if (i == Double.NEGATIVE_INFINITY) {
-            return true;
-        } else {
             return false;
+        } else {
+            return true;
         }
     }
 }

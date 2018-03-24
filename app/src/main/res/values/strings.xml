@@ -46,4 +46,6 @@
     <string name="coin_total_supply">Total Supply</string>
     <string name="coin_max_supply">Max Supply</string>
     <string name="coin_percent_change">Percent Change</string>
+    <string name="coinBuy">Buy</string>
+    <string name="coinSell">Sell</string>
 </resources>

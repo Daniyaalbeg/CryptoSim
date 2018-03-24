@@ -41,6 +41,9 @@
         <activity android:name=".Activites.CoinDetailedInfo"
             android:parentActivityName=".MainActivity">
         </activity>
+        <activity android:name=".Activites.CoinDetailedInfoSimMode"
+            android:parentActivityName=".MainActivity">
+        </activity>
     </application>
 
 </manifest>

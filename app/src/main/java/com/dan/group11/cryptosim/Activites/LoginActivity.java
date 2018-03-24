@@ -33,6 +33,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.dan.group11.cryptosim.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -45,6 +47,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Id to identity READ_CONTACTS permission request.
      */
     private static final int REQUEST_READ_CONTACTS = 0;
+
+    //Fire Base instance
+    private FirebaseAuth mAuth;
 
     /**
      * A dummy authentication store containing known user names and passwords.
@@ -94,6 +99,20 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+        //Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        updateUI(currentUser);
+    }
+
+    private void updateUI(FirebaseUser currentUser) {
+        //TODO Update UI Here!
     }
 
     private void populateAutoComplete() {

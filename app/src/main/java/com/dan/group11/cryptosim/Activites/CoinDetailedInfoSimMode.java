@@ -17,7 +17,7 @@ public class CoinDetailedInfoSimMode extends AppCompatActivity {
         setContentView(R.layout.activity_coin_detailed_info_sim_mode);
 
         Bundle data = getIntent().getExtras();
-        Coin coin = (Coin) data.getParcelable("coin");
+        Coin coin = (Coin) data.getSerializable("coin");
 
         int imageName = getResources().getIdentifier(coin.getSymbol().toLowerCase(), "mipmap", getPackageName());
         ImageView coinImage = (ImageView) findViewById(R.id.coinImageSimMode);
@@ -59,13 +59,13 @@ public class CoinDetailedInfoSimMode extends AppCompatActivity {
 
     }
 
-    private boolean checkPositive(double i) {
+    public static boolean checkPositive(double i) {
         if (i != i) throw new IllegalArgumentException("NaN");
         i *= Double.POSITIVE_INFINITY;
         if (i == Double.NEGATIVE_INFINITY) {
-            return false;
-        } else {
             return true;
+        } else {
+            return false;
         }
     }
 }

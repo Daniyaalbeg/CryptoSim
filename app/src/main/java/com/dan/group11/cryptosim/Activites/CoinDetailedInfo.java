@@ -20,7 +20,7 @@ public class CoinDetailedInfo extends AppCompatActivity {
         setContentView(R.layout.activity_coin_detailed_info);
 
         Bundle data = getIntent().getExtras();
-        Coin coin = (Coin) data.getParcelable("coin");
+        Coin coin = (Coin) data.getSerializable("coin");
 
         int imageName = getResources().getIdentifier(coin.getSymbol().toLowerCase(), "mipmap", getPackageName());
         ImageView coinImage = (ImageView) findViewById(R.id.coinImageSimMode);

@@ -3,6 +3,7 @@ package com.dan.group11.cryptosim;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
 /**
@@ -13,7 +14,7 @@ import java.util.Comparator;
  * object can be replaced or updated, no duplicates
  */
 
-public class Coin implements Parcelable{
+public class Coin implements Serializable{
 
     private String ID ; //should be unique
     private String name ;
@@ -87,6 +88,14 @@ public class Coin implements Parcelable{
         return percentChange;
     }
 
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public void setPercentChange(double percentChange) {
+        this.percentChange = percentChange;
+    }
+
     //Code that implements parcelable interface
     public Coin(Parcel in) {
         String[] data = new String[11];
@@ -104,37 +113,37 @@ public class Coin implements Parcelable{
         percentChange = Double.parseDouble(data[10]);
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
+//    @Override
+//    public int describeContents() {
+//        return 0;
+//    }
+//
+//    @Override
+//    public void writeToParcel(Parcel parcel, int i) {
+//        parcel.writeStringArray(new String[] {
+//                ID,
+//                name,
+//                symbol,
+//                String.valueOf(price),
+//                String.valueOf(rank),
+//                String.valueOf(volume24H),
+//                String.valueOf(marketCap),
+//                String.valueOf(availableSupply),
+//                String.valueOf(totalSupply),
+//                String.valueOf(maxSupply),
+//                String.valueOf(percentChange)
+//        });
+//    }
 
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeStringArray(new String[] {
-                ID,
-                name,
-                symbol,
-                String.valueOf(price),
-                String.valueOf(rank),
-                String.valueOf(volume24H),
-                String.valueOf(marketCap),
-                String.valueOf(availableSupply),
-                String.valueOf(totalSupply),
-                String.valueOf(maxSupply),
-                String.valueOf(percentChange)
-        });
-    }
-
-    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
-        public Coin createFromParcel(Parcel parcel) {
-            return new Coin(parcel);
-        }
-
-        public Coin[] newArray(int size) {
-            return new Coin[size];
-        }
-    };
+//    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+//        public Coin createFromParcel(Parcel parcel) {
+//            return new Coin(parcel);
+//        }
+//
+//        public Coin[] newArray(int size) {
+//            return new Coin[size];
+//        }
+//    };
 
     //Comparators are needed to sort collections made up of objects
     public static Comparator<Coin> sortByMarketCap = new Comparator<Coin>() {

@@ -33,7 +33,8 @@
         android:layout_marginStart="16dp"
         android:layout_toEndOf="@+id/imageCoin"
         android:text="Bitcoin"
-        android:textAppearance="@android:style/TextAppearance.Material.Title" />
+        android:textAppearance="@android:style/TextAppearance.Material.Title"
+        android:paddingRight="5px"/>
 
     <TextView
         android:id="@+id/textCoinID"

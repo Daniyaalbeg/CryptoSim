@@ -1,6 +1,7 @@
 package com.dan.group11.cryptosim.Adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,6 +14,7 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.dan.group11.cryptosim.Activites.CoinDetailedInfoSimMode;
 import com.dan.group11.cryptosim.Coin;
 import com.dan.group11.cryptosim.R;
 
@@ -52,6 +54,7 @@ public class CoinAdapter extends ArrayAdapter<Coin>{
 
         TextView coinPrice = (TextView) listItem.findViewById(R.id.textCoinPrice);
         coinPrice.setText("£" + Double.toString(coin.getPrice()));
+        coinPrice.setTextColor(CoinDetailedInfoSimMode.checkPositive(coin.getPercentChange()) ? Color.GREEN: Color.RED);
 
         TextView coinID = (TextView) listItem.findViewById(R.id.textCoinID);
         coinID.setText(String.valueOf(coin.getSymbol()));
@@ -63,20 +66,3 @@ public class CoinAdapter extends ArrayAdapter<Coin>{
         return listItem;
     }
 }
-
-//public class ValueFilter extends Filter {
-//    @Override
-//    protected FilterResults performFiltering(CharSequence constraint) {
-//        FilterResults result = new FilterResults();
-//
-//        if (constraint == null || constraint.length() == 0) {
-//            result.values =
-//        }
-//        return null;
-//    }
-//
-//    @Override
-//    protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-//
-//    }
-//}

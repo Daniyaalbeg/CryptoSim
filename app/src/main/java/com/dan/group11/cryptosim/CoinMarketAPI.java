@@ -25,7 +25,7 @@ public class CoinMarketAPI {
 
     private JSONArray coins ; //JSONArray holds JSON data in arrayList-like format
 
-    CoinMarketAPI(int amount) {
+    public CoinMarketAPI(int amount) {
         String url =("https://api.coinmarketcap.com/v1/ticker/?start=0&limit="+amount);
         //url is API URL, has limit variable to dictate how many coins are needed for display
         JSONParser jParser =new JSONParser() ;

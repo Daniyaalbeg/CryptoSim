@@ -32,11 +32,8 @@ dependencies {
     compile 'com.googlecode.json-simple:json-simple:1.1'
     compile fileTree(include: '*.jar', dir: 'libs')
     compile 'com.mcxiaoke.volley:library:1.0.6@aar'
-<<<<<<< HEAD
     testCompile 'junit:junit:4.12'
-=======
     compile 'com.google.firebase:firebase-core:11.0.4'
->>>>>>> Dan
 }
 
 

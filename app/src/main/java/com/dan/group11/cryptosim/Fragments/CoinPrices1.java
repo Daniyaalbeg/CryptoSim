@@ -15,6 +15,7 @@ import android.widget.SearchView;
 import com.dan.group11.cryptosim.Activites.CoinDetailedInfo;
 import com.dan.group11.cryptosim.Adapter.CoinAdapter;
 import com.dan.group11.cryptosim.Coin;
+import com.dan.group11.cryptosim.CoinMarketAPI;
 import com.dan.group11.cryptosim.R;
 
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ public class CoinPrices1 extends Fragment{
     ArrayAdapter adapter;
     ListView listView;
     View myView, headerView;
+    List<Coin> coins;
 
     @Nullable
     @Override
@@ -44,9 +46,30 @@ public class CoinPrices1 extends Fragment{
 
         Coin coin = new Coin("bitcoin", "Bitcoin", "BTC", 1, 573.2, 1.0, 72855700, 9080883500.0, 15844176.0, 15844176.0, 0.04);
 
-        List<Coin> coins = new ArrayList<>();
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                CoinMarketAPI api = new CoinMarketAPI(50);
+                coins = api.getAllCoinData();
+                adapter.notifyDataSetChanged();
+                for (int i =0; i < 10; i++) {
+                    System.out.println(coins.get(i).getName());
+                }
+            }
+        };
 
-        for (int i = 0; i < 10; i++) {
+        Thread thread = new Thread(r);
+        thread.start();
+
+        try {
+            wait(10000);
+        } catch (Exception e) {
+
+        }
+
+        coins = new ArrayList<>();
+
+        for (int i = 0; i < 1; i++) {
             coins.add(coin);
         }
 

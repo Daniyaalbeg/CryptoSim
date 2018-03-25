@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1036845451451",
+    "firebase_url": "https://cryptosim-af604.firebaseio.com",
+    "project_id": "cryptosim-af604",
+    "storage_bucket": "cryptosim-af604.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1036845451451:android:945d506c028d82bf",
+        "android_client_info": {
+          "package_name": "com.dan.group11.cryptosim"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1036845451451-sj9pfp8f0if34ko70mf685t3il8ng2qg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dan.group11.cryptosim",
+            "certificate_hash": "0bf04d5cb5f5e1e104c3083afda7168e46b98f4c"
+          }
+        },
+        {
+          "client_id": "1036845451451-r6msgtsfom5640kafm5tuqb72alael9c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjCRm80muBwIYPKs-jlNB2yoedeXcr6fU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1036845451451-r6msgtsfom5640kafm5tuqb72alael9c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

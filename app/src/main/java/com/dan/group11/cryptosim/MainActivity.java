@@ -1,5 +1,6 @@
 package com.dan.group11.cryptosim;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -9,6 +10,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.dan.group11.cryptosim.Fragments.CoinPrices1;
+import com.dan.group11.cryptosim.Fragments.Login;
+import com.dan.group11.cryptosim.Fragments.Settings;
+import com.dan.group11.cryptosim.Fragments.SimMode;
+import com.dan.group11.cryptosim.Fragments.Wallet;
+
+import com.dan.group11.cryptosim.Activites.*;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -20,7 +29,12 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+<<<<<<< HEAD
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);=//       fab.setOnClickListener(new View.OnClickListener() {
+=======
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+>>>>>>> Dan
 //            @Override
 //            public void onClick(View view) {
 //                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -36,6 +50,9 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+        fm.beginTransaction().replace(R.id.main, new CoinPrices1()).commit();
     }
 
     @Override
@@ -76,7 +93,23 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
 
+        if (id == R.id.nav__sim_mode) {
+            fm.beginTransaction().replace(R.id.main, new SimMode()).commit();
+        } else if (id == R.id.nav_coin_prices) {
+//            Intent intent = new Intent(this, CoinPrices.class);
+//            startActivity(intent);
+            fm.beginTransaction().replace(R.id.main, new CoinPrices1()).commit();
+        } else if (id == R.id.nav_wallet) {
+            fm.beginTransaction().replace(R.id.main, new Wallet()).commit();
+        } else if (id == R.id.nav_settings) {
+            fm.beginTransaction().replace(R.id.main, new Settings()).commit();
+        } else if (id == R.id.nav_log_in) {
+//            fm.beginTransaction().replace(R.id.main, new Login()).commit();
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

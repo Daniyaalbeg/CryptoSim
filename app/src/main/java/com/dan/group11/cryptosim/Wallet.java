@@ -5,7 +5,7 @@ package com.dan.group11.cryptosim;
  * The wallet class holds all the information pertaining to a users finances in the...
  * ... sim mode.
  * It is also a singleton class. You cannot have more than one wallet, with more than...
- * ...one budget
+ * ...one budget.
  */
 
 public class Wallet {

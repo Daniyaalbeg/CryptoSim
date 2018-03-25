@@ -7,7 +7,7 @@ import java.util.HashMap ;
 /**
  * Created by Ugo on 24/03/2018.
  * Account holds information about the account and the transactions made by...
- * ...the account holder. Essentially a save file
+ * ...the account holder. Essentially a save file.
  */
 
 public class Account {

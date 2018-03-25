@@ -3,7 +3,7 @@ package com.dan.group11.cryptosim;
 /**
  * Created by Ugo on 24/03/2018.
  * This class represents the object that stores all information pertaining to an...
- * ... individual transaction
+ * ... individual transaction.
  */
 
 public class Transaction {

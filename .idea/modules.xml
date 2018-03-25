@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CryptoSim.iml" filepath="$PROJECT_DIR$/CryptoSim.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/CryptoSim.iml" filepath="$PROJECT_DIR$/.idea/CryptoSim.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/json-20160810/json-20160810.iml" filepath="$PROJECT_DIR$/json-20160810/json-20160810.iml" />
       <module fileurl="file://$PROJECT_DIR$/json-simple-1.1.1/json-simple-1.1.1.iml" filepath="$PROJECT_DIR$/json-simple-1.1.1/json-simple-1.1.1.iml" />

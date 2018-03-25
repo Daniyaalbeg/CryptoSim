@@ -243,14 +243,14 @@
         android:padding="10px">
 
         <Button
-            android:id="@+id/sellCoinButton"
+            android:id="@+id/buyCoinButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@string/coinBuy"
             android:inputType="number"/>
 
         <Button
-            android:id="@+id/buyCoinButton"
+            android:id="@+id/sellCoinButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@string/coinSell"

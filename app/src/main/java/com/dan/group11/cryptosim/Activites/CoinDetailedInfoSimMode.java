@@ -1,30 +1,46 @@
 package com.dan.group11.cryptosim.Activites;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.dan.group11.cryptosim.Adapter.TransactionAdapter;
 import com.dan.group11.cryptosim.Coin;
 import com.dan.group11.cryptosim.R;
+import com.dan.group11.cryptosim.Transaction;
+import com.dan.group11.cryptosim.Wallet;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 public class CoinDetailedInfoSimMode extends AppCompatActivity {
+
+    private Wallet wallet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coin_detailed_info_sim_mode);
 
+        checkFile();
+
         Bundle data = getIntent().getExtras();
-        Coin coin = (Coin) data.getSerializable("coin");
+        final Coin coin = (Coin) data.getSerializable("coin");
 
         int imageName = getResources().getIdentifier(coin.getSymbol().toLowerCase(), "mipmap", getPackageName());
         ImageView coinImage = (ImageView) findViewById(R.id.coinImageSimMode);
         coinImage.setImageResource(imageName);
-
-//        TextView coinId = (TextView) findViewById(R.id.coin_detailed_info_id);
-//        coinId.setText(String.valueOf(coin.getID()));
 
         TextView coinName = (TextView) findViewById(R.id.coin_detailed_info_name);
         coinName.setText(String.valueOf(coin.getName()));
@@ -50,12 +66,28 @@ public class CoinDetailedInfoSimMode extends AppCompatActivity {
         TextView coinTotalSupply = (TextView) findViewById(R.id.coin_detailed_info_total_supply);
         coinTotalSupply.setText(String.valueOf(coin.getTotalSupply()));
 
-//        TextView coinMaxSupply = (TextView) findViewById(R.id.coin_detailed_info_max_supply);
-//        coinMaxSupply.setText(String.valueOf(coin.getMaxSupply()));
-
         TextView coinPercentChange = (TextView) findViewById(R.id.coin_detailed_info_percent_change);
         coinPercentChange.setText(String.valueOf(coin.getPercentChange()));
         coinPercentChange.setTextColor(checkPositive(coin.getPercentChange()) ? Color.GREEN: Color.RED);
+
+        final EditText coinAmount = (EditText) findViewById(R.id.coin_input);
+
+        Button buyButton = (Button) findViewById(R.id.buyCoinButton);
+        buyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                wallet.addTransaction(new Transaction(coin, Double.valueOf(coinAmount.getText().toString()), coin.getPrice()*Double.valueOf(coinAmount.getText().toString()), "HI There"));
+                saveData();
+            }
+        });
+
+        Button sellButton = (Button) findViewById(R.id.sellCoinButton);
+        sellButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("Hi");
+            }
+        });
 
     }
 
@@ -66,6 +98,76 @@ public class CoinDetailedInfoSimMode extends AppCompatActivity {
             return true;
         } else {
             return false;
+        }
+    }
+
+    private void checkFile() {
+        System.out.println("CHECKING FILE");
+        boolean fileFound = false;
+        try {
+            FileInputStream file = openFileInput("WalletData");
+            fileFound = true;
+        } catch (FileNotFoundException e) {
+            fileFound = false;
+        }
+        if (fileFound) {
+            //Load Wallet Data
+            System.out.println("LOADING WALLET DATA");
+            try {
+                FileInputStream fileIn = getApplicationContext().openFileInput("WalletData");
+                ObjectInputStream ois = new ObjectInputStream(fileIn);
+                wallet = (Wallet) ois.readObject();
+                System.out.println(wallet.getTransactions().size());
+                for (int i = 0; i < wallet.getTransactions().size(); i++) {
+                    wallet.getTransactions().get(i).getCoin().getName();
+                    wallet.getTransactions().get(i).getAmount();
+                    System.out.println("----------------------------");
+                }
+                ois.close();
+                fileIn.close();
+                System.out.println("LOADING CLOSED");
+            } catch (FileNotFoundException e ){
+                System.out.println("File missing");
+                e.printStackTrace();
+            } catch (IOException e) {
+                System.out.println("IO Exception");
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                System.out.println("Class not found exception");
+                e.printStackTrace();
+            } catch (NullPointerException e) {
+                System.out.println("Empty...");
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("CREATING FILE");
+            //Make file
+            try {
+                wallet = new Wallet();
+                File file = new File(getFilesDir(), "WalletData");
+                FileOutputStream fileOut = openFileOutput("WalletData", Context.MODE_PRIVATE);
+                ObjectOutputStream oos = new ObjectOutputStream(fileOut);
+                oos.writeObject(new Wallet());
+                System.out.println("WRITING WALLET");
+                oos.close();
+                fileOut.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void saveData() {
+        try {
+            FileOutputStream fileOut = openFileOutput("WalletData", Context.MODE_PRIVATE);
+            ObjectOutputStream oos = new ObjectOutputStream(fileOut);
+            oos.writeObject(wallet);
+            System.out.println("SAVING WALLET");
+            oos.close();
+            fileOut.close();
+        } catch (FileNotFoundException e) {
+
+        } catch (IOException e ) {
         }
     }
 }

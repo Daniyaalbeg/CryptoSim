@@ -28,10 +28,12 @@ public class SimModeGenerator extends Activity implements Runnable {
         while (true) {
             try {
                 Thread.sleep(1000);
-                price = coins.get(0).getPrice();
-                newPrice = price + Math.round(Math.random()) * 2 - 1;
-                coins.get(0).setPrice(newPrice);
-                coins.get(0).setPercentChange((price - newPrice) / 100);
+                for (int i = 0; i < coins.size(); i++) {
+                    price = coins.get(i).getPrice();
+                    newPrice = price + Math.round(Math.random()) * 2 - 1;
+                    coins.get(i).setPrice(newPrice);
+                    coins.get(i).setPercentChange((price - newPrice) / 100);
+                }
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

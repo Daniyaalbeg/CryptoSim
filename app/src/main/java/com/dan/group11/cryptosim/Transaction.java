@@ -1,21 +1,24 @@
 package com.dan.group11.cryptosim;
 
+import java.io.Serializable;
+import java.util.Date;
+
 /**
  * Created by Ugo on 24/03/2018.
  * This class represents the object that stores all information pertaining to an...
  * ... individual transaction.
  */
 
-public class Transaction {
+public class Transaction implements Serializable{
     public Coin getCoin() {
         return coin;
     }
 
-    public int getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public float getCost() {
+    public double getCost() {
         return cost;
     }
 
@@ -28,16 +31,36 @@ public class Transaction {
     }
 
     private Coin coin ;
-    private int amount ;
-    private float cost ;
+    private double amount ;
+    private double cost ;
     private String transactionDate ; //DD-MM-YYYY Format
     private String extraInfo ;
 
-    Transaction(Coin ccoin, int aamount, float ccost, String ttransactionDate, String eextraInfo) {  //if no extra info make argument ""
+    public Transaction(Coin ccoin, double aamount, double ccost, String eextraInfo) {  //if no extra info make argument ""
         coin =ccoin ;
         amount =aamount ;
         cost =ccost ;
-        transactionDate = ttransactionDate ;
+        transactionDate = new Date().toString();
         extraInfo =eextraInfo ;
+    }
+
+    public void setCoin(Coin coin) {
+        this.coin = coin;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+    public void setCost(double cost) {
+        this.cost = cost;
+    }
+
+    public void setTransactionDate(String transactionDate) {
+        this.transactionDate = transactionDate;
+    }
+
+    public void setExtraInfo(String extraInfo) {
+        this.extraInfo = extraInfo;
     }
 }

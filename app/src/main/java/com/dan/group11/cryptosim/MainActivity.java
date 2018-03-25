@@ -12,10 +12,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.dan.group11.cryptosim.Fragments.CoinPrices1;
-import com.dan.group11.cryptosim.Fragments.Login;
 import com.dan.group11.cryptosim.Fragments.Settings;
 import com.dan.group11.cryptosim.Fragments.SimMode;
-import com.dan.group11.cryptosim.Fragments.Wallet;
+import com.dan.group11.cryptosim.Fragments.WalletFragment;
 
 import com.dan.group11.cryptosim.Activites.*;
 
@@ -98,7 +97,7 @@ public class MainActivity extends AppCompatActivity
 //            startActivity(intent);
             fm.beginTransaction().replace(R.id.main, new CoinPrices1()).commit();
         } else if (id == R.id.nav_wallet) {
-            fm.beginTransaction().replace(R.id.main, new Wallet()).commit();
+            fm.beginTransaction().replace(R.id.main, new WalletFragment()).commit();
         } else if (id == R.id.nav_settings) {
             fm.beginTransaction().replace(R.id.main, new Settings()).commit();
         } else if (id == R.id.nav_log_in) {

@@ -5,6 +5,12 @@ import java.util.Collections ;
 
 /**
  * Created by Ugo on 17/03/2018.
+ * The coinMarket class is the class that gets most of the information from the api...
+ * ...and returns it or manipulates it (e.g. sort, filter) before returning it...
+ * ...to user
+ *
+ * Also contains enumeration SortBy which references all the different ways the ...
+ * array of coins can be sorted by.
  */
 
 enum SortBy {
@@ -13,7 +19,7 @@ enum SortBy {
 
 public class CoinMarket {
 
-    protected ArrayList<Coin> getCoins() {
+    public ArrayList<Coin> getCoins() {
         return coins;
     }
 
@@ -33,12 +39,12 @@ public class CoinMarket {
         coins = coinMarketAPI.getAllCoinData();
     }
 
-    protected Coin viewCoinInfo(String coinName) { //Will find and return specific coin
+    public Coin viewCoinInfo(String coinName) { //Will find and return specific coin
         coinName = coinName.toLowerCase();
         return coinMarketAPI.getCoinData(coinName);
     }
 
-    protected void updateCoinInfo() {
+    public void updateCoinInfo() {
         if (coins != null) {
             coinHistory.add(coins); //adds current coins arraylist to history
         }
@@ -46,7 +52,7 @@ public class CoinMarket {
         coins = coinMarketAPI.getAllCoinData();
     }
 
-    protected ArrayList<Coin> searchCoin(String coinID) { //Gets arraylist with coins whose names match search term
+    public ArrayList<Coin> searchCoin(String coinID) { //Gets arraylist with coins whose names match search term
         ArrayList<Coin> returnVal = new ArrayList<>();
         for (int i = 0; i < coins.size(); i++) {
             if (coins.get(i).getID().contains((coinID).toLowerCase())) {
@@ -56,7 +62,7 @@ public class CoinMarket {
         return returnVal;
     }
 
-    protected void sortCoins(SortBy sortBy) {
+    public void sortCoins(SortBy sortBy) {
         switch (sortBy) {
             case byPrice:
                 Collections.sort(coins, Coin.sortByPrice);
@@ -75,7 +81,7 @@ public class CoinMarket {
         }
     }
 
-    protected ArrayList<Coin> filterCoins(int minPrice, int maxPrice, int minVol, int maxVol, int minMarketCap, int maxMarketCap) { //If user does not enter a minimum or maximum, then set them to 0 and Integer.MAX_VALUE respectively
+    public ArrayList<Coin> filterCoins(int minPrice, int maxPrice, int minVol, int maxVol, int minMarketCap, int maxMarketCap) { //If user does not enter a minimum or maximum, then set them to 0 and Integer.MAX_VALUE respectively
         ArrayList<Coin> returnVal = new ArrayList<>();
         for (int i = 0; i < coins.size(); i++) {
             if (coins.get(i).getPrice() >= minPrice && coins.get(i).getPrice() <= maxPrice) {
@@ -89,7 +95,7 @@ public class CoinMarket {
         return returnVal;
     }
 
-    protected static CoinMarket getInstance() {
+    public static CoinMarket getInstance() {
         if (instance == null) {
             instance = new CoinMarket();
         }

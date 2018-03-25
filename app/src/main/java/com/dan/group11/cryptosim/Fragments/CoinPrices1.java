@@ -51,27 +51,25 @@ public class CoinPrices1 extends Fragment{
             public void run() {
                 CoinMarketAPI api = new CoinMarketAPI(50);
                 coins = api.getAllCoinData();
-                adapter.notifyDataSetChanged();
-                for (int i =0; i < 10; i++) {
-                    System.out.println(coins.get(i).getName());
-                }
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+//                        adapter.notifyDataSetChanged();
+                        adapter = new CoinAdapter(getActivity().getApplicationContext(), coins);
+                        listView.setAdapter(adapter);
+                    }
+                });
             }
         };
-
-        Thread thread = new Thread(r);
-        thread.start();
-
-        try {
-            wait(10000);
-        } catch (Exception e) {
-
-        }
 
         coins = new ArrayList<>();
 
         for (int i = 0; i < 1; i++) {
             coins.add(coin);
         }
+
+        Thread thread = new Thread(r);
+        thread.start();
 
         adapter = new CoinAdapter(getActivity().getApplicationContext(), coins);
 

@@ -18,6 +18,8 @@ import com.dan.group11.cryptosim.Activites.CoinDetailedInfoSimMode;
 import com.dan.group11.cryptosim.Coin;
 import com.dan.group11.cryptosim.R;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +47,7 @@ public class CoinAdapter extends ArrayAdapter<Coin>{
         }
 
         Coin coin = coinList.get(position);
+        NumberFormat formatter = new DecimalFormat("#0.00");
 
         TextView coinName = (TextView) listItem.findViewById(R.id.textCoinName);
         coinName.setText(coin.getName());
@@ -53,7 +56,7 @@ public class CoinAdapter extends ArrayAdapter<Coin>{
         coinRank.setText(String.valueOf(coin.getRank()));
 
         TextView coinPrice = (TextView) listItem.findViewById(R.id.textCoinPrice);
-        coinPrice.setText("£" + Double.toString(coin.getPrice()));
+        coinPrice.setText("£" + String.valueOf(formatter.format(coin.getPrice())));
         coinPrice.setTextColor(CoinDetailedInfoSimMode.checkPositive(coin.getPercentChange()) ? Color.GREEN: Color.RED);
 
         TextView coinID = (TextView) listItem.findViewById(R.id.textCoinID);

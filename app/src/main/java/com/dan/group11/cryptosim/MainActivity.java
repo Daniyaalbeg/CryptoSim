@@ -1,6 +1,8 @@
 package com.dan.group11.cryptosim;
 
+import android.app.ActionBar;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;

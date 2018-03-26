@@ -13,6 +13,14 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="Theme.MyAppTheme" parent="@android:style/Theme.Holo">
+        <item name="android:actionBarStyle">@style/Theme.MyAppTheme.ActionBar</item>
+    </style>
+
+    <style name="Theme.MyAppTheme.ActionBar" parent="@android:style/Widget.Holo.ActionBar">
+        <item name="android:background">#263238</item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

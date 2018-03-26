@@ -10,6 +10,7 @@ import com.dan.group11.cryptosim.Coin;
 
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created by daniyaalbeg on 24/03/2018.
@@ -22,6 +23,7 @@ public class SimModeGenerator extends Activity implements Runnable {
     CoinAdapter adapter;
     double price, newPrice;
     Context context;
+    Random random;
 
     public SimModeGenerator(List<Coin> coins, CoinAdapter adapter, ListView listView, Context context) {
         this.coins = coins;
@@ -37,7 +39,7 @@ public class SimModeGenerator extends Activity implements Runnable {
                 Thread.sleep(1000);
                 for (int i = 0; i < coins.size(); i++) {
                     price = coins.get(i).getPrice();
-                    newPrice = price + (Math.random() * (coins.get(i).getPrice() * 0.05));
+                    newPrice = price + (Math.random() - Math.random()) * (coins.get(i).getPrice() * 0.05);
                     if (newPrice <= 0) {
                         newPrice = Math.abs(newPrice);
                     }
@@ -49,7 +51,7 @@ public class SimModeGenerator extends Activity implements Runnable {
                     public void run() {
                         adapter.updateCoins(coins);
                         adapter.notifyDataSetChanged();
-                        listView.setAdapter(adapter);
+//                        listView.setAdapter(adapter);
                     }
                 });
             } catch (InterruptedException e) {

@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.dan.group11.cryptosim.Adapter.TransactionAdapter;
 import com.dan.group11.cryptosim.Coin;
+import com.dan.group11.cryptosim.Data.CoinsOwned;
 import com.dan.group11.cryptosim.R;
 import com.dan.group11.cryptosim.Transaction;
 import com.dan.group11.cryptosim.Wallet;
@@ -26,10 +27,14 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Map;
 
 public class CoinDetailedInfoSimMode extends AppCompatActivity {
 
     private Wallet wallet;
+    Map<String, Double> coinsOwned;
+    CoinsOwned coinsOwnedGetter;
+    double coinWorthOwned;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +42,13 @@ public class CoinDetailedInfoSimMode extends AppCompatActivity {
         setContentView(R.layout.activity_coin_detailed_info_sim_mode);
 
         checkFile();
+        coinsOwnedGetter = new CoinsOwned(wallet.getTransactions());
+        coinsOwned = coinsOwnedGetter.getCoinsOwned();
 
         Bundle data = getIntent().getExtras();
         final Coin coin = (Coin) data.getSerializable("coin");
         NumberFormat formatter = new DecimalFormat("#0.0000");
+        NumberFormat moneyFormat = new DecimalFormat("#0.00");
 
         int imageName = getResources().getIdentifier(coin.getSymbol().toLowerCase(), "mipmap", getPackageName());
         ImageView coinImage = (ImageView) findViewById(R.id.coinImageSimMode);
@@ -71,8 +79,22 @@ public class CoinDetailedInfoSimMode extends AppCompatActivity {
         coinTotalSupply.setText(String.valueOf(coin.getTotalSupply()));
 
         TextView coinPercentChange = (TextView) findViewById(R.id.coin_detailed_info_percent_change);
-        coinPercentChange.setText(String.valueOf(new DecimalFormat("#0.00").format(coin.getPercentChange())));
+        coinPercentChange.setText(moneyFormat.format(coin.getPercentChange()));
         coinPercentChange.setTextColor(checkPositive(coin.getPercentChange()) ? Color.GREEN: Color.RED);
+
+        TextView availableFundsText = (TextView) findViewById(R.id.wallet_worth);
+        availableFundsText.setText("Fund available: £" + moneyFormat.format(wallet.getMoney()));
+
+        TextView coinsOwnedText = (TextView) findViewById(R.id.coins_owned);
+        if (coinsOwned.containsKey(coin.getName())) {
+            coinWorthOwned = coinsOwned.get(coin.getName()) * coin.getPrice();
+            coinWorthOwned = Double.valueOf(moneyFormat.format(Double.valueOf(coinWorthOwned)));
+            String sentence = "You own " + coinsOwned.get(coin.getName()) + " " + coin.getName() + " worth " + " £" + coinWorthOwned + ".";
+            coinsOwnedText.setText(sentence);
+        } else {
+            coinsOwnedText.setText("You own none of this coin.");
+        }
+
 
         final EditText coinAmount = (EditText) findViewById(R.id.coin_input);
 

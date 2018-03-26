@@ -221,12 +221,20 @@
     </android.support.v7.widget.LinearLayoutCompat>
 </android.support.v7.widget.LinearLayoutCompat>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linear3"
+        android:id="@+id/wallet_worth"
+        android:layout_centerHorizontal="true"
+        android:text="Available funds: £300.21"/>
+
 
 
     <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/linear3"
+        android:layout_below="@id/wallet_worth"
         android:layout_centerHorizontal="true"
         android:id="@+id/linear4"
         android:orientation="vertical">
@@ -257,9 +265,14 @@
             android:inputType="number"/>
 
     </android.support.v7.widget.LinearLayoutCompat>
-
     </android.support.v7.widget.LinearLayoutCompat>
 
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/coins_owned"
+        android:layout_below="@id/linear4"
+        android:layout_centerHorizontal="true"
+        android:text="You own 10 coins worth £100"/>
 
 </RelativeLayout>

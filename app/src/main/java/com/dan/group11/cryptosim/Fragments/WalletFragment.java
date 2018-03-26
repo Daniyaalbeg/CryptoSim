@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.dan.group11.cryptosim.Adapter.TransactionAdapter;
 import com.dan.group11.cryptosim.R;
@@ -20,6 +21,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.text.DecimalFormat;
 
 /**
  * Created by daniyaalbeg on 20/03/2018.
@@ -46,9 +48,14 @@ public class WalletFragment extends Fragment {
 
         checkFile();
 
+        TextView walletMoney = (TextView) getActivity().findViewById(R.id.wallet_money);
+        walletMoney.setText("£" + String.valueOf(new DecimalFormat("#0.00").format(wallet.getMoney())));
+
         adapter = new TransactionAdapter(getContext(), wallet.getTransactions());
         listView.setAdapter(adapter);
-
+        if (wallet.getTransactions() == null) {
+            listView.setEmptyView(getView().findViewById(R.id.empty));
+        }
     }
 
     private void checkFile() {
@@ -71,7 +78,6 @@ public class WalletFragment extends Fragment {
                 listView.setAdapter(adapter);
                 for (int i = 0; i < wallet.getTransactions().size(); i++) {
                     wallet.getTransactions().get(i).getCoin().getName();
-                    System.out.println("----------------------------");
                 }
                 ois.close();
                 fileIn.close();
@@ -91,11 +97,11 @@ public class WalletFragment extends Fragment {
             System.out.println("CREATING FILE");
             //Make file
             try {
-                wallet = new Wallet();
+                wallet = new Wallet(500);
                 File file = new File(getActivity().getFilesDir(), "WalletData");
                 FileOutputStream fileOut = getActivity().openFileOutput("WalletData", Context.MODE_PRIVATE);
                 ObjectOutputStream oos = new ObjectOutputStream(fileOut);
-                oos.writeObject(new Wallet());
+                oos.writeObject(new Wallet(500));
                 System.out.println("WRITING WALLET");
                 oos.close();
                 fileOut.close();

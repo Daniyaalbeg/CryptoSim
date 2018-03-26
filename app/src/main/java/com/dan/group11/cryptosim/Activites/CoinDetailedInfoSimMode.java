@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dan.group11.cryptosim.Adapter.TransactionAdapter;
 import com.dan.group11.cryptosim.Coin;
@@ -23,6 +24,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 public class CoinDetailedInfoSimMode extends AppCompatActivity {
 
@@ -37,6 +40,7 @@ public class CoinDetailedInfoSimMode extends AppCompatActivity {
 
         Bundle data = getIntent().getExtras();
         final Coin coin = (Coin) data.getSerializable("coin");
+        NumberFormat formatter = new DecimalFormat("#0.0000");
 
         int imageName = getResources().getIdentifier(coin.getSymbol().toLowerCase(), "mipmap", getPackageName());
         ImageView coinImage = (ImageView) findViewById(R.id.coinImageSimMode);
@@ -52,7 +56,7 @@ public class CoinDetailedInfoSimMode extends AppCompatActivity {
         coinRank.setText(String.valueOf(coin.getRank()));
 
         TextView coinPrice = (TextView) findViewById(R.id.coin_detailed_info_price);
-        coinPrice.setText(String.valueOf(coin.getPrice()));
+        coinPrice.setText("£" + String.valueOf(formatter.format(coin.getPrice())));
 
         TextView coinVolume = (TextView) findViewById(R.id.coin_detailed_info_volume24h);
         coinVolume.setText(String.valueOf(coin.getVolume24H()));
@@ -67,7 +71,7 @@ public class CoinDetailedInfoSimMode extends AppCompatActivity {
         coinTotalSupply.setText(String.valueOf(coin.getTotalSupply()));
 
         TextView coinPercentChange = (TextView) findViewById(R.id.coin_detailed_info_percent_change);
-        coinPercentChange.setText(String.valueOf(coin.getPercentChange()));
+        coinPercentChange.setText(String.valueOf(new DecimalFormat("#0.00").format(coin.getPercentChange())));
         coinPercentChange.setTextColor(checkPositive(coin.getPercentChange()) ? Color.GREEN: Color.RED);
 
         final EditText coinAmount = (EditText) findViewById(R.id.coin_input);
@@ -76,8 +80,22 @@ public class CoinDetailedInfoSimMode extends AppCompatActivity {
         buyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                wallet.addTransaction(new Transaction(coin, Double.valueOf(coinAmount.getText().toString()), coin.getPrice()*Double.valueOf(coinAmount.getText().toString()), "HI There"));
-                saveData();
+                if (coinAmount.getText() == null) {
+                    Toast.makeText(getApplicationContext(), "Please input an amount to buy", Toast.LENGTH_LONG).show();
+                }
+                System.out.println(coin.getPrice()*Double.valueOf(coinAmount.getText().toString()));
+                try {
+                    if (wallet.spend(coin.getPrice()*Double.valueOf(coinAmount.getText().toString()))) {
+                        Toast.makeText(getApplicationContext(), "You have bought " + coinAmount.getText().toString() + " " + coin.getName(), Toast.LENGTH_LONG).show();
+                        wallet.addTransaction(new Transaction(coin, Double.valueOf(coinAmount.getText().toString()), coin.getPrice() * Double.valueOf(coinAmount.getText().toString()), "HI There", true));
+                        saveData();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "You do not have enough money.", Toast.LENGTH_LONG).show();
+                    }
+                    saveData();
+                } catch (NumberFormatException e) {
+                    Toast.makeText(getApplicationContext(), "Please input a number", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -88,6 +106,8 @@ public class CoinDetailedInfoSimMode extends AppCompatActivity {
                 System.out.println("Hi");
             }
         });
+
+        setTitle("Sim Coin Info");
 
     }
 
@@ -117,12 +137,6 @@ public class CoinDetailedInfoSimMode extends AppCompatActivity {
                 FileInputStream fileIn = getApplicationContext().openFileInput("WalletData");
                 ObjectInputStream ois = new ObjectInputStream(fileIn);
                 wallet = (Wallet) ois.readObject();
-                System.out.println(wallet.getTransactions().size());
-                for (int i = 0; i < wallet.getTransactions().size(); i++) {
-                    wallet.getTransactions().get(i).getCoin().getName();
-                    wallet.getTransactions().get(i).getAmount();
-                    System.out.println("----------------------------");
-                }
                 ois.close();
                 fileIn.close();
                 System.out.println("LOADING CLOSED");
@@ -143,11 +157,10 @@ public class CoinDetailedInfoSimMode extends AppCompatActivity {
             System.out.println("CREATING FILE");
             //Make file
             try {
-                wallet = new Wallet();
                 File file = new File(getFilesDir(), "WalletData");
                 FileOutputStream fileOut = openFileOutput("WalletData", Context.MODE_PRIVATE);
                 ObjectOutputStream oos = new ObjectOutputStream(fileOut);
-                oos.writeObject(new Wallet());
+                oos.writeObject(new Wallet(500));
                 System.out.println("WRITING WALLET");
                 oos.close();
                 fileOut.close();

@@ -27,15 +27,19 @@ import java.util.List;
  * Created by daniyaalbeg on 21/03/2018.
  */
 
-public class CoinAdapter extends ArrayAdapter<Coin>{
+public class CoinAdapter extends ArrayAdapter<Coin> implements Filterable{
 
     private Context coinContext;
     List<Coin> coinList = new ArrayList<>();
+    List<Coin> backUpArray;
+    CoinFilter filter;
 
     public CoinAdapter(@NonNull Context context, List<Coin> coinList) {
         super(context, 0, coinList);
         this.coinContext = context;
         this.coinList = coinList;
+        this.backUpArray = coinList;
+        filter = new CoinFilter(coinList, "getName", this);
     }
 
     @NonNull
@@ -67,5 +71,73 @@ public class CoinAdapter extends ArrayAdapter<Coin>{
         coinImage.setImageResource(imageName);
 
         return listItem;
+    }
+
+    public void removeFilter() {
+        coinList = backUpArray;
+        notifyDataSetChanged();
+    }
+
+    public void updateCoins(List<Coin> coins) {
+        this.coinList = coins;
+        this.backUpArray = coinList;
+    }
+
+    @Override
+    public int getCount() {
+        return coinList.size();
+    }
+
+    @Nullable
+    @Override
+    public Coin getItem(int position) {
+        return coinList.get(position);
+    }
+
+    //
+//    @NonNull
+//    @Override
+//    public Filter getFilter() {
+//        return filter;
+//    }
+
+        @NonNull
+    @Override
+    public Filter getFilter() {
+
+        Filter filter = new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                FilterResults results = new FilterResults();
+                List<Coin> coinsFiltered = new ArrayList<>();
+
+                charSequence = charSequence.toString().toLowerCase();
+                if (charSequence.length() > 0) {
+                    for (int i = 0; i < coinList.size(); i++) {
+                        if (coinList.get(i).getName().toLowerCase().contains(charSequence)) {
+                            coinsFiltered.add(coinList.get(i));
+                        }
+                    }
+                } else {
+                    coinsFiltered.addAll(coinList);
+                }
+
+                results.count = coinsFiltered.size();
+                results.values = coinsFiltered;
+
+                return results;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                coinList = (List<Coin>) filterResults.values;
+                if (coinList.size() == 0) {
+                    notifyDataSetInvalidated();
+                } else {
+                    notifyDataSetChanged();
+                }
+            }
+        };
+        return filter;
     }
 }

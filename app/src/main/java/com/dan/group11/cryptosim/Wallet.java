@@ -12,20 +12,20 @@ import java.util.List;
 
 public class Wallet implements Serializable{
 
-    private float money ;
+    private double money ;
     private List<Transaction> transactions;
 
 //    private static Wallet instance ;
 
-    public Wallet() {
-        money = 500;
+    public Wallet(double money) {
         transactions = new ArrayList<>();
-        transactions.add(new Transaction(
-                new Coin("bitcoin", "Bitcoin", "BTC", 1, 573.2, 1.0, 72855700, 9080883500.0, 15844176.0, 15844176.0, 0.04),
-                0.4,
-                12.543,
-                "hello"
-        ));
+        this.money = money;
+//        transactions.add(new Transaction(
+//                new Coin("bitcoin", "Bitcoin", "BTC", 1, 573.2, 1.0, 72855700, 9080883500.0, 15844176.0, 15844176.0, 0.04),
+//                0.4,
+//                12.543,
+//                "hello"
+//        ));
 //        transactions.add(new Transaction(
 //                new Coin("bitcoin", "Bitcoin", "BTC", 1, 573.2, 1.0, 72855700, 9080883500.0, 15844176.0, 15844176.0, 0.04),
 //                0.4,
@@ -34,23 +34,23 @@ public class Wallet implements Serializable{
 //        ));
     }
 
-    public boolean spend(float money) {
-        if(money >=this.money) {
-            this.money =-money ;
-            return true ;
+    public boolean spend(double money) {
+        if(money <= this.money) {
+            this.money = this.money - money;
+            return true;
         }
-        return false ;
+        return false;
     }
 
-    public void sell(float money) {
+    public void sell(double money) {
         this.money =-money ;
     }
 
-    public void reset(float money) {  //default is 500
+    public void reset(double money) {  //default is 500
         this.money =money ;
     }
 
-    public float getMoney() {
+    public double getMoney() {
         return money;
     }
 
@@ -62,6 +62,7 @@ public class Wallet implements Serializable{
 //                12.543,
 //                "hello"
 //            ));
+//            return null;
 //        }
         return transactions;
     }
@@ -73,7 +74,7 @@ public class Wallet implements Serializable{
     }
 
 
-    public void setMoney(float money) {
+    public void setMoney(double money) {
         this.money = money;
     }
 

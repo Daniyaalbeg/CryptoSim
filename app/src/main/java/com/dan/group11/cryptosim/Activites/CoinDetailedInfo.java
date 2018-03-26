@@ -12,6 +12,9 @@ import android.widget.TextView;
 import com.dan.group11.cryptosim.Coin;
 import com.dan.group11.cryptosim.R;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 public class CoinDetailedInfo extends AppCompatActivity {
 
     @Override
@@ -26,9 +29,6 @@ public class CoinDetailedInfo extends AppCompatActivity {
         ImageView coinImage = (ImageView) findViewById(R.id.coinImageSimMode);
         coinImage.setImageResource(imageName);
 
-//        TextView coinId = (TextView) findViewById(R.id.coin_detailed_info_id);
-//        coinId.setText(String.valueOf(coin.getID()));
-
         TextView coinName = (TextView) findViewById(R.id.coin_detailed_info_name);
         coinName.setText(String.valueOf(coin.getName()));
 
@@ -39,7 +39,7 @@ public class CoinDetailedInfo extends AppCompatActivity {
         coinRank.setText(String.valueOf(coin.getRank()));
 
         TextView coinPrice = (TextView) findViewById(R.id.coin_detailed_info_price);
-        coinPrice.setText(String.valueOf(coin.getPrice()));
+        coinPrice.setText("£" + String.valueOf(new DecimalFormat("#0.0000").format(coin.getPrice())));
 
         TextView coinVolume = (TextView) findViewById(R.id.coin_detailed_info_volume24h);
         coinVolume.setText(String.valueOf(coin.getVolume24H()));
@@ -57,8 +57,10 @@ public class CoinDetailedInfo extends AppCompatActivity {
 //        coinMaxSupply.setText(String.valueOf(coin.getMaxSupply()));
 
         TextView coinPercentChange = (TextView) findViewById(R.id.coin_detailed_info_percent_change);
-        coinPercentChange.setText(String.valueOf(coin.getPercentChange()));
+        coinPercentChange.setText(String.valueOf(new DecimalFormat("#0.00").format(coin.getPercentChange())));
         coinPercentChange.setTextColor(checkPositive(coin.getPercentChange()) ? Color.GREEN: Color.RED);
+
+        setTitle("Coin Info");
 
     }
 

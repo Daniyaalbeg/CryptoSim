@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -42,7 +43,7 @@ import java.util.TimerTask;
 
 public class SimMode extends Fragment {
 
-    private ArrayAdapter adapter;
+    private CoinAdapter adapter;
     private ListView listView;
     private View myView, headerView;
     private List<Coin> coins;
@@ -58,51 +59,25 @@ public class SimMode extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //createData();
-        checkFile();
-
-        Runnable r = new Runnable() {
-            @Override
-            public void run() {
-                CoinMarketAPI api = new CoinMarketAPI(50);
-                coins = api.getAllCoinData();
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-//                        adapter.notifyDataSetChanged();
-                        adapter = new CoinAdapter(getContext(), coins);
-                        listView.setAdapter(adapter);
-                        System.out.println("--------------------------");
-                        saveData();
-                    }
-                });
-            }
-        };
-
-        Thread t = new Thread(r);
-        //t.start();
-
+        coins = new ArrayList<>();
         adapter = new CoinAdapter(getContext(), coins);
+//        createData();
 
         listView = (ListView) getView().findViewById(R.id.listViewSimMode);
         headerView = getLayoutInflater().inflate(R.layout.coin_price_header, listView, false);
-        listView.addHeaderView(headerView);
-        listView.setAdapter(adapter);
 
         checkFile();
 
+        listView.addHeaderView(headerView);
+        listView.setAdapter(adapter);
+        if (coins == null || coins.size() == 0) {
+            listView.setEmptyView(getView().findViewById(R.id.coin_empty));
+        }
+
         //Sim Mode Generator runs
-        SimModeGenerator generator = new SimModeGenerator(coins, adapter);
+        SimModeGenerator generator = new SimModeGenerator(coins, adapter, listView, getContext());
         Thread thread = new Thread(generator);
         thread.start();
-
-//        Timer timer = new Timer();
-//        timer.schedule(new TimerTask() {
-//            @Override
-//            public void run() {
-//                saveData();
-//            }
-//        }, 1, 10000);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -121,12 +96,23 @@ public class SimMode extends Fragment {
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                adapter.getFilter().filter(s);
+                if (s.length() != 0) {
+                    adapter.getFilter().filter(s.toLowerCase());
+                    adapter.notifyDataSetChanged();
+                } else {
+                    adapter.removeFilter();
+                }
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
+                if (s.length() != 0) {
+                    adapter.getFilter().filter(s.toLowerCase());
+                    adapter.notifyDataSetChanged();
+                } else {
+                    adapter.removeFilter();
+                }
                 return false;
             }
         });
@@ -148,18 +134,19 @@ public class SimMode extends Fragment {
                 FileInputStream fileIn = getContext().openFileInput("SimModeData");
                 ObjectInputStream ois = new ObjectInputStream(fileIn);
                 Coin coin;
-                createData();
+                //createData();
                 //saveData();
-                coins = new ArrayList<>();
+                coins.clear();
                 for (int i = 0; i < 50; i++) {
                     System.out.println("PREPARING TO READ");
                     coin = (Coin) ois.readObject();
                     coins.add(coin);
                     System.out.println("READ COIN");
                 }
-//                adapter.notifyDataSetChanged();
-                adapter = new CoinAdapter(getContext(), coins);
-                listView.setAdapter(adapter);
+                adapter.updateCoins(coins);
+                adapter.notifyDataSetChanged();
+//                adapter = new CoinAdapter(getContext(), coins);
+//                listView.setAdapter(adapter);
                 ois.close();
             } catch (FileNotFoundException e ){
                 System.out.println("File missing");
@@ -175,8 +162,6 @@ public class SimMode extends Fragment {
             //Make file
             File file = new File(getContext().getFilesDir(), "SimModeData");
             //API CALL HERE
-            Thread thread = new Thread(new CoinPriceGetter(coins, adapter, listView, getContext(), false));
-            //thread.start();
             saveData();
         }
     }
@@ -193,18 +178,45 @@ public class SimMode extends Fragment {
             fileOut.close();
             oos.close();
         } catch (FileNotFoundException e) {
-
+            e.printStackTrace();
         } catch (IOException e ) {
+            e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        saveData();
     }
 
     private void createData() {
         Coin coin = new Coin("bitcoin", "Bitcoin", "BTC", 1, 573.2, 1.0, 72855700, 9080883500.0, 15844176.0, 15844176.0, 0.04);
-
-        coins = new ArrayList<>();
-//        coins.add(coin);
+        coins.clear();
         for (int i = 0; i < 1; i++) {
             coins.add(coin);
         }
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                CoinMarketAPI api = new CoinMarketAPI(50);
+                coins = api.getAllCoinData();
+                saveData();
+                adapter.updateCoins(coins);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter.notifyDataSetChanged();
+//                        adapter = new CoinAdapter(getContext(), coins);
+//                        listView.setAdapter(adapter);
+                        System.out.println("API CALL COMPLETE");
+                    }
+                });
+            }
+        };
+
+        Thread t = new Thread(r);
+        t.start();
+
     }
 }

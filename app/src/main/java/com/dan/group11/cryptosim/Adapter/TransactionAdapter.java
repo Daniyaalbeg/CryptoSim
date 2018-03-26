@@ -1,6 +1,7 @@
 package com.dan.group11.cryptosim.Adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,8 @@ import android.widget.TextView;
 import com.dan.group11.cryptosim.R;
 import com.dan.group11.cryptosim.Transaction;
 
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -52,6 +55,7 @@ public class TransactionAdapter extends ArrayAdapter {
 
         TextView transactionCoinPrice = (TextView) view.findViewById(R.id.textCoinAmountTransaction);
         transactionCoinPrice.setText(String.valueOf(transaction.getAmount()));
+        transactionCoinPrice.setTextColor(transaction.isBought() ? Color.GREEN: Color.RED);
 
         return view;
     }

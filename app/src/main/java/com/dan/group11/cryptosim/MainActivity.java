@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        setTitle("Coin Prices");
         android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction().replace(R.id.main, new CoinPrices1()).commit();
     }
@@ -91,14 +92,18 @@ public class MainActivity extends AppCompatActivity
         android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
 
         if (id == R.id.nav__sim_mode) {
+            setTitle("Sim Mode");
             fm.beginTransaction().replace(R.id.main, new SimMode()).commit();
         } else if (id == R.id.nav_coin_prices) {
+            setTitle("Coin Prices");
 //            Intent intent = new Intent(this, CoinPrices.class);
 //            startActivity(intent);
             fm.beginTransaction().replace(R.id.main, new CoinPrices1()).commit();
         } else if (id == R.id.nav_wallet) {
+            setTitle("Wallet");
             fm.beginTransaction().replace(R.id.main, new WalletFragment()).commit();
         } else if (id == R.id.nav_settings) {
+            setTitle("Settings");
             fm.beginTransaction().replace(R.id.main, new Settings()).commit();
         } else if (id == R.id.nav_log_in) {
 //            fm.beginTransaction().replace(R.id.main, new Login()).commit();

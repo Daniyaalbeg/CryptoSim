@@ -184,6 +184,6 @@ public class Coin implements Serializable{
 
     @Override
     public String toString() {
-        return name;
+        return name.toLowerCase();
     }
 }

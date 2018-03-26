@@ -10,6 +10,7 @@ import com.dan.group11.cryptosim.Coin;
 import com.dan.group11.cryptosim.CoinMarket;
 import com.dan.group11.cryptosim.CoinMarketAPI;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,13 +20,13 @@ import java.util.List;
 public class CoinPriceGetter extends Activity implements Runnable {
 
     List<Coin> coins;
-    ArrayAdapter adapter;
+    CoinAdapter adapter;
     ListView listView;
     Context context;
     boolean run;
 
 
-    public CoinPriceGetter(List<Coin> coins, ArrayAdapter adapter, ListView listView, Context context, boolean run) {
+    public CoinPriceGetter(List<Coin> coins, CoinAdapter adapter, ListView listView, Context context, boolean run) {
         this.coins = coins;
         this.adapter = adapter;
         this.listView = listView;
@@ -37,15 +38,20 @@ public class CoinPriceGetter extends Activity implements Runnable {
     public void run() {
         do {
             CoinMarketAPI api = new CoinMarketAPI(50);
-            coins = api.getAllCoinData();
+            coins.clear();
+            List<Coin> ApiCoins = api.getAllCoinData();
+             for (Coin coin : ApiCoins) {
+                 coins.add(coin);
+             }
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-//                        adapter.notifyDataSetChanged();
-                    adapter = new CoinAdapter(context, coins);
-                    listView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+//                    adapter = new CoinAdapter(context, coins);
+//                    listView.setAdapter(adapter);
                 }
             });
+            System.out.println("Data Fetched");
             try {
                 Thread.sleep(50000);
             } catch (InterruptedException e) {

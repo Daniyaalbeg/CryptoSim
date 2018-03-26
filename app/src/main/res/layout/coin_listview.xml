@@ -17,12 +17,13 @@
 
     <ImageView
         android:id="@+id/imageCoin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:adjustViewBounds="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="11dp"
         android:layout_toEndOf="@+id/textCoinRank"
-        android:scaleType="matrix"
+        android:scaleType="fitXY"
         app:srcCompat="@mipmap/default1" />
 
     <TextView
@@ -53,5 +54,11 @@
         android:layout_centerVertical="true"
         android:text="£3,600"
         android:textAppearance="@android:style/TextAppearance.Material.Title" />
+    <TextView
+        android:id="@+id/coin_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

@@ -31,7 +31,7 @@ import java.util.List;
 
 public class CoinPrices1 extends Fragment{
 
-    ArrayAdapter adapter;
+    CoinAdapter adapter;
     ListView listView;
     View myView, headerView;
     List<Coin> coins;
@@ -47,12 +47,12 @@ public class CoinPrices1 extends Fragment{
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Coin coin = new Coin("bitcoin", "Bitcoin", "BTC", 1, 573.2, 1.0, 72855700, 9080883500.0, 15844176.0, 15844176.0, 0.04);
+//        Coin coin = new Coin("bitcoin", "Bitcoin", "BTC", 1, 573.2, 1.0, 72855700, 9080883500.0, 15844176.0, 15844176.0, 0.04);
 
         coins = new ArrayList<>();
-        for (int i = 0; i < 1; i++) {
-            coins.add(coin);
-        }
+//        for (int i = 0; i < 1; i++) {
+//            coins.add(coin);
+//        }
 
         adapter = new CoinAdapter(getActivity().getApplicationContext(), coins);
         listView = (ListView) getView().findViewById(R.id.listView);
@@ -80,12 +80,23 @@ public class CoinPrices1 extends Fragment{
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                adapter.getFilter().filter(s);
+                if (s.length() != 0) {
+                    adapter.getFilter().filter(s.toLowerCase());
+                    adapter.notifyDataSetChanged();
+                } else {
+                    adapter.removeFilter();
+                }
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
+                if (s.length() != 0) {
+                    adapter.getFilter().filter(s.toLowerCase());
+                    adapter.notifyDataSetChanged();
+                } else {
+                    adapter.removeFilter();
+                }
                 return false;
             }
         });

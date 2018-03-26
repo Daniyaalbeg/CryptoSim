@@ -53,7 +53,7 @@ public class CoinPriceGetter extends Activity implements Runnable {
             });
             System.out.println("Data Fetched");
             try {
-                Thread.sleep(50000);
+                Thread.sleep(100000);
             } catch (InterruptedException e) {
                 System.out.println("Thread crashed because of interrupt");
             }

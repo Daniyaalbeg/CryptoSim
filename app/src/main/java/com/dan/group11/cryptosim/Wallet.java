@@ -43,7 +43,7 @@ public class Wallet implements Serializable{
     }
 
     public void sell(double money) {
-        this.money =-money ;
+        this.money =+money ;
     }
 
     public void reset(double money) {  //default is 500

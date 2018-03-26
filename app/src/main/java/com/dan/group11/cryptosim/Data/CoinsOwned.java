@@ -29,7 +29,16 @@ public class CoinsOwned {
                 } else {
                     coinsOwned.put(transaction.getCoin().getName(), transaction.getAmount());
                 }
+            } else {
+                if (coinsOwned.containsKey(transaction.getCoin().getName())) {
+                    coinsOwned.put(transaction.getCoin().getName(), coinsOwned.get(transaction.getCoin().getName()) - transaction.getAmount());
+                } else {
+                    coinsOwned.put(transaction.getCoin().getName(), -transaction.getAmount());
+                } 
             }
+        }
+        if (coinsOwned.isEmpty()) {
+            return null;
         }
         return coinsOwned;
     }

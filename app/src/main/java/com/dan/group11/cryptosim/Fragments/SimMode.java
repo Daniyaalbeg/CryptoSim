@@ -162,7 +162,8 @@ public class SimMode extends Fragment {
             //Make file
             File file = new File(getContext().getFilesDir(), "SimModeData");
             //API CALL HERE
-            saveData();
+            createData();
+//            saveData();
         }
     }
 
@@ -191,11 +192,11 @@ public class SimMode extends Fragment {
     }
 
     private void createData() {
-        Coin coin = new Coin("bitcoin", "Bitcoin", "BTC", 1, 573.2, 1.0, 72855700, 9080883500.0, 15844176.0, 15844176.0, 0.04);
-        coins.clear();
-        for (int i = 0; i < 1; i++) {
-            coins.add(coin);
-        }
+//        Coin coin = new Coin("bitcoin", "Bitcoin", "BTC", 1, 573.2, 1.0, 72855700, 9080883500.0, 15844176.0, 15844176.0, 0.04);
+//        coins.clear();
+//        for (int i = 0; i < 1; i++) {
+//            coins.add(coin);
+//        }
         Runnable r = new Runnable() {
             @Override
             public void run() {

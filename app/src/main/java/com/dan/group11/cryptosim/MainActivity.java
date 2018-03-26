@@ -1,7 +1,9 @@
 package com.dan.group11.cryptosim;
 
 import android.app.ActionBar;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -22,6 +24,8 @@ import com.dan.group11.cryptosim.Activites.*;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    public static final String PREFS_NAME = "MyApp_Settings";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +51,16 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        SharedPreferences sharedPref = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        if (sharedPref.contains("market_crash")) {
+            if (sharedPref.getBoolean("market_crash", true)) {
+                //Place preferences
+            }
+        } else {
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putBoolean("market_crash", false);
+        }
 
         setTitle("Coin Prices");
         android.support.v4.app.FragmentManager fm = getSupportFragmentManager();

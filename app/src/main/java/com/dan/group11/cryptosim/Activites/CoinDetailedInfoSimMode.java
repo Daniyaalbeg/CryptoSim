@@ -32,23 +32,29 @@ import java.util.Map;
 public class CoinDetailedInfoSimMode extends AppCompatActivity {
 
     private Wallet wallet;
-    Map<String, Double> coinsOwned;
-    CoinsOwned coinsOwnedGetter;
-    double coinWorthOwned;
+    private Map<String, Double> coinsOwned;
+    private CoinsOwned coinsOwnedGetter;
+    private double coinWorthOwned;
+    private Coin coin;
+    final NumberFormat moneyFormat = new DecimalFormat("#0.00");
+    final NumberFormat formatter = new DecimalFormat("#0.0000");
+    EditText coinAmount;
+    TextView coinsOwnedText;
+    Button sellButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coin_detailed_info_sim_mode);
+        setTitle("Sim Coin Info");
 
         checkFile();
         coinsOwnedGetter = new CoinsOwned(wallet.getTransactions());
         coinsOwned = coinsOwnedGetter.getCoinsOwned();
 
         Bundle data = getIntent().getExtras();
-        final Coin coin = (Coin) data.getSerializable("coin");
-        NumberFormat formatter = new DecimalFormat("#0.0000");
-        NumberFormat moneyFormat = new DecimalFormat("#0.00");
+        coin = (Coin) data.getSerializable("coin");
 
         int imageName = getResources().getIdentifier(coin.getSymbol().toLowerCase(), "mipmap", getPackageName());
         ImageView coinImage = (ImageView) findViewById(R.id.coinImageSimMode);
@@ -85,8 +91,8 @@ public class CoinDetailedInfoSimMode extends AppCompatActivity {
         TextView availableFundsText = (TextView) findViewById(R.id.wallet_worth);
         availableFundsText.setText("Fund available: £" + moneyFormat.format(wallet.getMoney()));
 
-        TextView coinsOwnedText = (TextView) findViewById(R.id.coins_owned);
-        if (coinsOwned.containsKey(coin.getName())) {
+        coinsOwnedText = (TextView) findViewById(R.id.coins_owned);
+        if (coinsOwned != null && coinsOwned.containsKey(coin.getName())) {
             coinWorthOwned = coinsOwned.get(coin.getName()) * coin.getPrice();
             coinWorthOwned = Double.valueOf(moneyFormat.format(Double.valueOf(coinWorthOwned)));
             String sentence = "You own " + coinsOwned.get(coin.getName()) + " " + coin.getName() + " worth " + " £" + coinWorthOwned + ".";
@@ -96,7 +102,7 @@ public class CoinDetailedInfoSimMode extends AppCompatActivity {
         }
 
 
-        final EditText coinAmount = (EditText) findViewById(R.id.coin_input);
+        coinAmount = (EditText) findViewById(R.id.coin_input);
 
         Button buyButton = (Button) findViewById(R.id.buyCoinButton);
         buyButton.setOnClickListener(new View.OnClickListener() {
@@ -110,27 +116,71 @@ public class CoinDetailedInfoSimMode extends AppCompatActivity {
                     if (wallet.spend(coin.getPrice()*Double.valueOf(coinAmount.getText().toString()))) {
                         Toast.makeText(getApplicationContext(), "You have bought " + coinAmount.getText().toString() + " " + coin.getName(), Toast.LENGTH_LONG).show();
                         wallet.addTransaction(new Transaction(coin, Double.valueOf(coinAmount.getText().toString()), coin.getPrice() * Double.valueOf(coinAmount.getText().toString()), "HI There", true));
+                        coinsOwned = coinsOwnedGetter.getCoinsOwned();
+                        sellButton.setEnabled(true);
                         saveData();
+                        setTextCoin();
                     } else {
                         Toast.makeText(getApplicationContext(), "You do not have enough money.", Toast.LENGTH_LONG).show();
                     }
-                    saveData();
                 } catch (NumberFormatException e) {
+                    e.printStackTrace();
                     Toast.makeText(getApplicationContext(), "Please input a number", Toast.LENGTH_LONG).show();
                 }
             }
         });
 
-        Button sellButton = (Button) findViewById(R.id.sellCoinButton);
-        sellButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                System.out.println("Hi");
+        sellButton = (Button) findViewById(R.id.sellCoinButton);
+        if (coinsOwned == null || !coinsOwned.containsKey(coin.getName()) || !(coinsOwned.get(coin.getName()) > 0)) {
+            sellButton.setEnabled(false);
+        }
+        sellButton.setOnClickListener(sellButtonClickHandler);
+    }
+
+    View.OnClickListener sellButtonClickHandler = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if (coinAmount.getText() == null) {
+                Toast.makeText(getApplicationContext(), "Please input an amount to sell", Toast.LENGTH_LONG).show();
             }
-        });
+            try {
+                System.out.println("Selling");
+                Double amountSelling = Double.valueOf(coinAmount.getText().toString());
+                if (coinsOwned.get(coin.getName()) >= amountSelling) {
+                    wallet.addTransaction(new Transaction(coin, amountSelling, coin.getPrice(), "", false));
+                    wallet.sell(Math.abs(amountSelling*coin.getPrice()));
+                    coinsOwned = coinsOwnedGetter.getCoinsOwned();
+                    Toast.makeText(getApplicationContext(), "You have sold " + amountSelling + " worth of " + coin.getName(), Toast.LENGTH_LONG).show();
+                    saveData();
+//                    setTextCoin();
+                    finish();
+                    getIntent().putExtra("coin", coin);
+                    startActivity(getIntent());
+                } else {
+                    Toast.makeText(getApplicationContext(), "You do not have enough to sell", Toast.LENGTH_LONG).show();
+                }
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                Toast.makeText(getApplicationContext(), "Please input a number", Toast.LENGTH_LONG).show();
+            }
+        }
+    };
 
-        setTitle("Sim Coin Info");
+    private void setTextCoin() {
+        if ((coinsOwned != null && coinsOwned.containsKey(coin.getName())) || !(coinsOwned.get(coin.getName()) <= 0)) {
+            coinWorthOwned = coinsOwned.get(coin.getName()) * coin.getPrice();
+            coinWorthOwned = Double.valueOf(moneyFormat.format(Double.valueOf(coinWorthOwned)));
+            String sentence = "You own " + coinsOwned.get(coin.getName()) + " " + coin.getName() + " worth " + " £" + coinWorthOwned + ".";
+            coinsOwnedText.setText(sentence);
+        } else {
+            coinsOwnedText.setText("You own none of this coin.");
+        }
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        saveData();
     }
 
     public static boolean checkPositive(double i) {

@@ -111,8 +111,7 @@ public class CoinDetailedInfoSimMode extends AppCompatActivity {
             public void onClick(View view) {
                 if (coinAmount.getText() == null) {
                     Toast.makeText(getApplicationContext(), "Please input an amount to buy", Toast.LENGTH_LONG).show();
-                }
-                try {
+                }try {
                     if (wallet.spend(coin.getPrice()*Double.valueOf(coinAmount.getText().toString()))) {
                         Toast.makeText(getApplicationContext(), "You have bought " + coinAmount.getText().toString() + " " + coin.getName(), Toast.LENGTH_LONG).show();
                         wallet.addTransaction(new Transaction(coin, Double.valueOf(coinAmount.getText().toString()), coin.getPrice() * Double.valueOf(coinAmount.getText().toString()), "HI There", true));

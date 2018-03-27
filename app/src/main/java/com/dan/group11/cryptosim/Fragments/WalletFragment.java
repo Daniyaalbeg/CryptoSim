@@ -11,7 +11,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.dan.group11.cryptosim.Adapter.TransactionAdapter;
+import com.dan.group11.cryptosim.Data.CoinsOwned;
 import com.dan.group11.cryptosim.R;
+import com.dan.group11.cryptosim.Transaction;
 import com.dan.group11.cryptosim.Wallet;
 
 import java.io.File;
@@ -22,6 +24,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by daniyaalbeg on 20/03/2018.
@@ -50,6 +56,18 @@ public class WalletFragment extends Fragment {
 
         TextView walletMoney = (TextView) getActivity().findViewById(R.id.wallet_money);
         walletMoney.setText("£" + String.valueOf(new DecimalFormat("#0.00").format(wallet.getMoney())));
+
+        CoinsOwned coinsOwned = new CoinsOwned(wallet.getTransactions());
+        double profit = 500 - (wallet.getMoney() + coinsOwned.getAssets());
+
+        TextView profitText = (TextView) getActivity().findViewById(R.id.coin_worth);
+        profitText.setText("£" + new DecimalFormat("#0.00").format(500 - wallet.getMoney()));
+
+
+        double assetsDouble = coinsOwned.getAssets();
+
+        TextView assets = (TextView) getActivity().findViewById(R.id.profit);
+        assets.setText("£" + new DecimalFormat("#0.00").format(assetsDouble));
 
         adapter = new TransactionAdapter(getContext(), wallet.getTransactions());
         listView.setAdapter(adapter);

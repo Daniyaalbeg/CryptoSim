@@ -47,6 +47,7 @@ public class SimMode extends Fragment {
     private ListView listView;
     private View myView, headerView;
     private List<Coin> coins;
+    Thread thread;
 
     @Nullable
     @Override
@@ -76,7 +77,7 @@ public class SimMode extends Fragment {
 
         //Sim Mode Generator runs
         SimModeGenerator generator = new SimModeGenerator(coins, adapter, listView, getContext());
-        Thread thread = new Thread(generator);
+        thread = new Thread(generator);
         thread.start();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -189,6 +190,7 @@ public class SimMode extends Fragment {
     public void onPause() {
         super.onPause();
         saveData();
+        thread.interrupt();
     }
 
     private void createData() {

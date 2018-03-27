@@ -42,4 +42,14 @@ public class CoinsOwned {
         }
         return coinsOwned;
     }
+
+    public double getAssets() {
+        double assets = 0;
+        for (Transaction transaction: transactions) {
+            if (transaction.isBought()) {
+                assets += transaction.getAmount() * transaction.getCoin().getPrice();
+            }
+        }
+        return assets;
+    }
 }

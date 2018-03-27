@@ -12,8 +12,18 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.view.ViewGroup.LayoutParams;
 
 import com.dan.group11.cryptosim.Fragments.CoinPrices1;
 import com.dan.group11.cryptosim.Fragments.Settings;
@@ -26,6 +36,10 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public static final String PREFS_NAME = "MyApp_Settings";
+    private PopupWindow popupWindow;
+    private TextView message;
+    private DrawerLayout drawerLayout;
+    private Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,20 +98,38 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//        int id = item.getItemId();
+//
+//        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_settings) {
+//            LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+//            drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+//
+//            View popUpView = inflater.inflate(R.layout.popout, null);
+//            PopupWindow popupWindow = new PopupWindow(popUpView, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+//
+//            TextView textView = (TextView) findViewById(R.id.popup);
+//            textView.setText("HELLO");
+//
+//            button = (Button) findViewById(R.id.popup_button);
+//            button.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+////                    popupWindow.dismiss();
+//                    System.out.println("close help");
+//                }
+//            });
+//
+//            popupWindow.showAtLocation(drawerLayout, Gravity.CENTER,0,0);
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override

@@ -51,6 +51,7 @@
     <string name="title_activity_settings">Settings</string>
 
     <!-- Strings related to Settings -->
+    <string name="help">Help</string>
 
     <!-- Example General settings -->
     <string name="pref_header_general">General</string>

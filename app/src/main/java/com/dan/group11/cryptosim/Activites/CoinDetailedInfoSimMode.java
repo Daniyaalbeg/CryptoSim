@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -181,6 +182,16 @@ public class CoinDetailedInfoSimMode extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         saveData();
+    }
+
+    //Goes back to simmode instead of coin price
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public static boolean checkPositive(double i) {

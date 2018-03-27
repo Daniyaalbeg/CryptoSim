@@ -47,8 +47,6 @@ public class CoinPriceGetter extends Activity implements Runnable {
                 @Override
                 public void run() {
                     adapter.notifyDataSetChanged();
-//                    adapter = new CoinAdapter(context, coins);
-//                    listView.setAdapter(adapter);
                 }
             });
             System.out.println("Data Fetched");

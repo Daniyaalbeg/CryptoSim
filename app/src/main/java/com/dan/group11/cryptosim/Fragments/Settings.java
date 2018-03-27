@@ -51,9 +51,11 @@ public class Settings extends Fragment {
                 if (b) {
                     editor.putBoolean("market_crash", true);
                     editor.commit();
+                    System.out.println(sharedPref.getBoolean("market_crash", true));
                 } else {
                     editor.putBoolean("market_crash", false);
                     editor.commit();
+                    System.out.println(sharedPref.getBoolean("market_crash", true));
                 }
             }
         });

@@ -112,7 +112,6 @@ public class CoinDetailedInfoSimMode extends AppCompatActivity {
                 if (coinAmount.getText() == null) {
                     Toast.makeText(getApplicationContext(), "Please input an amount to buy", Toast.LENGTH_LONG).show();
                 }
-                System.out.println(coin.getPrice()*Double.valueOf(coinAmount.getText().toString()));
                 try {
                     if (wallet.spend(coin.getPrice()*Double.valueOf(coinAmount.getText().toString()))) {
                         Toast.makeText(getApplicationContext(), "You have bought " + coinAmount.getText().toString() + " " + coin.getName(), Toast.LENGTH_LONG).show();
@@ -163,6 +162,9 @@ public class CoinDetailedInfoSimMode extends AppCompatActivity {
             } catch (NumberFormatException e) {
                 e.printStackTrace();
                 Toast.makeText(getApplicationContext(), "Please input a number", Toast.LENGTH_LONG).show();
+            } catch (Exception e) {
+                Toast.makeText(getApplicationContext(), "Please input a number", Toast.LENGTH_LONG).show();
+                e.printStackTrace();
             }
         }
     };

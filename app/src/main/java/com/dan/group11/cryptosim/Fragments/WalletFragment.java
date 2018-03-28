@@ -58,7 +58,7 @@ public class WalletFragment extends Fragment {
         walletMoney.setText("£" + String.valueOf(new DecimalFormat("#0.00").format(wallet.getMoney())));
 
         CoinsOwned coinsOwned = new CoinsOwned(wallet.getTransactions());
-        double profit = 500 - (wallet.getMoney() + coinsOwned.getAssets());
+        double profit = (coinsOwned.getProfitFromSales());
 
         TextView profitText = (TextView) getActivity().findViewById(R.id.coin_worth);
         profitText.setText("£" + new DecimalFormat("#0.00").format(500 - wallet.getMoney()));

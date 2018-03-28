@@ -145,6 +145,7 @@ public class SimMode extends Fragment {
                     System.out.println("READ COIN");
                 }
                 adapter.updateCoins(coins);
+                saveData();
                 adapter.notifyDataSetChanged();
 //                adapter = new CoinAdapter(getContext(), coins);
 //                listView.setAdapter(adapter);
@@ -193,6 +194,12 @@ public class SimMode extends Fragment {
         thread.interrupt();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        checkFile();
+    }
+
     private void createData() {
 //        Coin coin = new Coin("bitcoin", "Bitcoin", "BTC", 1, 573.2, 1.0, 72855700, 9080883500.0, 15844176.0, 15844176.0, 0.04);
 //        coins.clear();
@@ -204,11 +211,12 @@ public class SimMode extends Fragment {
             public void run() {
                 CoinMarketAPI api = new CoinMarketAPI(50);
                 coins = api.getAllCoinData();
-                saveData();
-                adapter.updateCoins(coins);
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        saveData();
+                        checkFile();
+//                        adapter.updateCoins(coins);
                         adapter.notifyDataSetChanged();
 //                        adapter = new CoinAdapter(getContext(), coins);
 //                        listView.setAdapter(adapter);
